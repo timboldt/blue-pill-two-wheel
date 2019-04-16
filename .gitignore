@@ -1,2 +1,12 @@
-CMakeCache.txt
+.idea/workspace.xml
+cmake-build-debug/
 CMakeFiles/
+Makefile
+bluepill2wheel.bin
+bluepill2wheel.cbp
+bluepill2wheel.elf
+bluepill2wheel.hex
+bluepill2wheel.map
+cmake_install.cmake
+CMakeCache.txt
+
