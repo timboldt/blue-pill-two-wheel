@@ -25,6 +25,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <string.h>
+#include "balance_main.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -47,7 +48,7 @@ I2C_HandleTypeDef hi2c2;
 
 osThreadId defaultTaskHandle;
 /* USER CODE BEGIN PV */
-
+osThreadId balanceTaskHandle;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -120,7 +121,8 @@ int main(void)
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
-  /* add threads, ... */
+  osThreadDef(balanceTask, BALANCE_do_work, osPriorityHigh, 0, 4096);
+  balanceTaskHandle = osThreadCreate(osThread(balanceTask), NULL);
   /* USER CODE END RTOS_THREADS */
 
   /* Start scheduler */
@@ -252,13 +254,7 @@ void StartDefaultTask(void const * argument)
 
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
-  for(;;)
-  {
-      const uint16_t MPU9250_DEVICE_ADDRESS = 0xD0;
-      const uint16_t MPU9250_RA_WHO_AM_I = 0x75;
-      static uint8_t buffer[100];
-      memset(buffer, 0, sizeof(buffer));
-      HAL_StatusTypeDef status = HAL_I2C_Mem_Read(&hi2c2, MPU9250_DEVICE_ADDRESS, MPU9250_RA_WHO_AM_I, I2C_MEMADD_SIZE_8BIT, buffer, 1, 100);
+  for(;;) {
       HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
       osDelay(250);
   }
