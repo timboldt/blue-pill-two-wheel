@@ -5,20 +5,33 @@
 #include "main.h"
 #include "cmsis_os.h"
 
-#include <cstring>
+#include <stdio.h>
+#include <string.h>
 
 #include "balance_main.h"
+#include "tilt_sensor.h"
 
 extern I2C_HandleTypeDef hi2c2;
 
-void BALANCE_do_work(void const * argument) {
-    while (1) {
-        const uint16_t MPU9250_DEVICE_ADDRESS = 0xD0;
-        const uint16_t MPU9250_RA_WHO_AM_I = 0x75;
-        static uint8_t buffer[100];
-        memset(buffer, 0, sizeof(buffer));
-        HAL_StatusTypeDef status = HAL_I2C_Mem_Read(&hi2c2, MPU9250_DEVICE_ADDRESS, MPU9250_RA_WHO_AM_I, I2C_MEMADD_SIZE_8BIT, buffer, 1, 100);
+static TiltSensor imu;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-noreturn"
+void BALANCE_do_work(void const * argument) {
+    const uint16_t MPU9250_DEVICE_ADDRESS = 0x68;
+    for (;;) {
+        int status = imu.init(&hi2c2, MPU9250_DEVICE_ADDRESS);
+        if (status >= 0) {
+            break;
+        }
+        printf("imu init failed, err: %d\n", status);
+        osDelay(100);
+    }
+
+    while (1) {
+        int angle = imu.tilt_angle();
+        //printf("angle: %d\n", angle);
         osDelay(10);
     }
 }
+#pragma clang diagnostic pop

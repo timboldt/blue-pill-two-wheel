@@ -24,7 +24,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdio.h>
 #include <string.h>
+
 #include "balance_main.h"
 /* USER CODE END Includes */
 
@@ -121,7 +123,7 @@ int main(void)
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
-  osThreadDef(balanceTask, BALANCE_do_work, osPriorityHigh, 0, 4096);
+  osThreadDef(balanceTask, BALANCE_do_work, osPriorityHigh, 0, 128);
   balanceTaskHandle = osThreadCreate(osThread(balanceTask), NULL);
   /* USER CODE END RTOS_THREADS */
 
@@ -239,7 +241,15 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+//int _write(int file, char *ptr, int len)
+//{
+//    int DataIdx;
+//    for(DataIdx=0; DataIdx<len; DataIdx++)
+//    {
+//        ITM_SendChar(*ptr++);
+//    }
+//    return len;
+//}
 /* USER CODE END 4 */
 
 /* USER CODE BEGIN Header_StartDefaultTask */
