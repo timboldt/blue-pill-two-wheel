@@ -4,14 +4,14 @@ Reimplementation of Two-Wheel Balancing Bot using STM32CubeMX and plain C.
 ### Pinouts
 
 ```
-[TODO] PA0  - Encoder 1 Channel A
-[TODO] PA1  - Encoder 1 Channel B
+PA0  - Encoder 1 Channel A
+PA1  - Encoder 1 Channel B
 PA2  - Motor 1 Channel 1
 PA3  - Motor 1 Channel 2
 PA4  - Motor 2 Channel 1
 PA5  - Motor 2 Channel 2
-[TODO] PA6  - Encoder 1 Channel A
-[TODO] PA7  - Encoder 1 Channel B
+PA6  - Encoder 1 Channel A
+PA7  - Encoder 1 Channel B
 
 PA9  - USART1 TX
 PA10 - USART1 RX
