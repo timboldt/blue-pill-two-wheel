@@ -13,8 +13,8 @@ Reimplementation of Two-Wheel Balancing Bot using STM32CubeMX and plain C.
 [TODO] PA6  - Encoder 1 Channel A
 [TODO] PA7  - Encoder 1 Channel B
 
-[TODO] PA9  - USART1 TX
-[TODO] PA10 - USART1 RX
+PA9  - USART1 TX
+PA10 - USART1 RX
 
 [TODO] PB6  - Motor 1 PWM on TIM4 Ch 1
 [TODO] PB7  - Motor 2 PWM on TIM4 Ch 2

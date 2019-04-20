@@ -3,9 +3,7 @@
 //
 
 #include "main.h"
-#include "cmsis_os.h"
 
-#include <stdio.h>
 #include <string.h>
 
 #include "balance_main.h"
@@ -25,13 +23,14 @@ void BALANCE_do_work(void const * argument) {
             break;
         }
         printf("imu init failed, err: %d\n", status);
-        osDelay(100);
+        HAL_Delay(100);
     }
 
     while (1) {
         int angle = imu.tilt_angle();
-        //printf("angle: %d\n", angle);
-        osDelay(10);
+        puts("hi");
+        printf("angle: %d\n", angle);
+        HAL_Delay(1000);
     }
 }
 #pragma clang diagnostic pop
