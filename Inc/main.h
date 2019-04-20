@@ -60,6 +60,14 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define LED_Pin GPIO_PIN_13
 #define LED_GPIO_Port GPIOC
+#define Motor1Ch1_Pin GPIO_PIN_2
+#define Motor1Ch1_GPIO_Port GPIOA
+#define Motor1Ch2_Pin GPIO_PIN_3
+#define Motor1Ch2_GPIO_Port GPIOA
+#define Motor2Ch1_Pin GPIO_PIN_4
+#define Motor2Ch1_GPIO_Port GPIOA
+#define Motor2Ch2_Pin GPIO_PIN_5
+#define Motor2Ch2_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
