@@ -1,5 +1,5 @@
 # bluepill2wheel
-Reimplementation of Two-Wheel Balancing Bot using STM32CubeMX and plain C.
+Reimplementation of Two-Wheel Balancing Bot using STM32CubeMX and plain C/C++.
 
 ### Pinouts
 
