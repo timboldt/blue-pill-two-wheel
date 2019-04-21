@@ -10,6 +10,8 @@
 #include "tilt_sensor.h"
 
 extern I2C_HandleTypeDef hi2c2;
+extern TIM_HandleTypeDef htim2;
+extern TIM_HandleTypeDef htim3;
 
 static TiltSensor imu;
 
@@ -25,17 +27,18 @@ void BALANCE_do_work(void const * argument) {
 //        printf("imu init failed, err: %d\n", status);
 //        HAL_Delay(100);
 //    }
-    HAL_GPIO_TogglePin(Motor1Ch2_GPIO_Port, Motor1Ch2_Pin);
-    HAL_GPIO_TogglePin(Motor2Ch2_GPIO_Port, Motor2Ch2_Pin);
+//    HAL_GPIO_TogglePin(Motor1Ch2_GPIO_Port, Motor1Ch2_Pin);
+//    HAL_GPIO_TogglePin(Motor2Ch2_GPIO_Port, Motor2Ch2_Pin);
 
     while (1) {
 //        int angle = imu.tilt_angle();
 //        printf("angle: %d\n", angle);
+        printf("%d %d\n", __HAL_TIM_GET_COUNTER(&htim2), __HAL_TIM_GET_COUNTER(&htim3));
         HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-        HAL_GPIO_TogglePin(Motor1Ch1_GPIO_Port, Motor1Ch1_Pin);
-        HAL_GPIO_TogglePin(Motor1Ch2_GPIO_Port, Motor1Ch2_Pin);
-        HAL_GPIO_TogglePin(Motor2Ch1_GPIO_Port, Motor2Ch1_Pin);
-        HAL_GPIO_TogglePin(Motor2Ch2_GPIO_Port, Motor2Ch2_Pin);
+//        HAL_GPIO_TogglePin(Motor1Ch1_GPIO_Port, Motor1Ch1_Pin);
+//        HAL_GPIO_TogglePin(Motor1Ch2_GPIO_Port, Motor1Ch2_Pin);
+//        HAL_GPIO_TogglePin(Motor2Ch1_GPIO_Port, Motor2Ch1_Pin);
+//        HAL_GPIO_TogglePin(Motor2Ch2_GPIO_Port, Motor2Ch2_Pin);
         HAL_Delay(1000);
     }
 }
