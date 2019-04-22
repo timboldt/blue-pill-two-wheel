@@ -23,6 +23,9 @@ void BALANCE_init_hardware() {
     LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOC);
     LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOD);
 
+    // Enable the TIM4 peripheral.
+    LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM4);
+
     // Board LED is on PC13.
     LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_13);
     LL_GPIO_InitTypeDef gpio_init = {0};

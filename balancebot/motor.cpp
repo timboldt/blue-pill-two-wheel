@@ -7,7 +7,37 @@
 #include "main.h"
 
 void Motor::init_hardware() {
-    // Direction control pins:
+    // Initialize timer.
+    LL_TIM_InitTypeDef timer_init = {0};
+    timer_init.Prescaler = 72;
+    timer_init.CounterMode = LL_TIM_COUNTERMODE_UP;
+    timer_init.Autoreload = 999;
+    timer_init.ClockDivision = LL_TIM_CLOCKDIVISION_DIV1;
+    LL_TIM_Init(TIM4, &timer_init);
+    LL_TIM_DisableARRPreload(TIM4);
+
+    // Initialize timer output compare for channels 1 and 2.
+    LL_TIM_OC_InitTypeDef timer_oc_init = {0};
+    timer_oc_init.OCMode = LL_TIM_OCMODE_PWM1;
+    timer_oc_init.CompareValue = 0;
+    timer_oc_init.OCPolarity = LL_TIM_OCPOLARITY_HIGH;
+
+    LL_TIM_OC_EnablePreload(TIM4, LL_TIM_CHANNEL_CH1);
+    timer_oc_init.OCState = LL_TIM_OCSTATE_DISABLE;
+    timer_oc_init.OCNState = LL_TIM_OCSTATE_DISABLE;
+    LL_TIM_OC_Init(TIM4, LL_TIM_CHANNEL_CH1, &timer_oc_init);
+    LL_TIM_OC_DisableFast(TIM4, LL_TIM_CHANNEL_CH1);
+
+    LL_TIM_OC_EnablePreload(TIM4, LL_TIM_CHANNEL_CH2);
+    timer_oc_init.OCState = LL_TIM_OCSTATE_DISABLE;
+    timer_oc_init.OCNState = LL_TIM_OCSTATE_DISABLE;
+    LL_TIM_OC_Init(TIM4, LL_TIM_CHANNEL_CH2, &timer_oc_init);
+    LL_TIM_OC_DisableFast(TIM4, LL_TIM_CHANNEL_CH2);
+
+    LL_TIM_SetTriggerOutput(TIM4, LL_TIM_TRGO_RESET);
+    LL_TIM_DisableMasterSlaveMode(TIM4);
+
+    // Direction control GPIO pins:
     //    PA2  - Motor 1 Forward
     //    PA3  - Motor 1 Reverse
     //    PA4  - Motor 2 Forward
@@ -20,8 +50,19 @@ void Motor::init_hardware() {
     gpio_init.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
     LL_GPIO_Init(GPIOA, &gpio_init);
 
-    //xxxx
-    //    HAL_TIM_Base_Start(&htim4);
-    //    HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_1);
-    //    HAL_TIM_PWM_Start(&htim4,TIM_CHANNEL_2);
+    // PWM GPIO pins:
+    //    PB6 - Motor 1 PWM
+    //    PB7 - Motor 2 PWM
+    LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_6|LL_GPIO_PIN_7);
+    gpio_init = {0};
+    gpio_init.Pin = LL_GPIO_PIN_6|LL_GPIO_PIN_7;
+    gpio_init.Mode = LL_GPIO_MODE_ALTERNATE;
+    gpio_init.Speed = LL_GPIO_SPEED_FREQ_LOW;
+    gpio_init.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+    LL_GPIO_Init(GPIOB, &gpio_init);
+
+    // Enable the PWM channels, enable the counter, and force an update event.
+    LL_TIM_CC_EnableChannel(TIM4, LL_TIM_CHANNEL_CH1|LL_TIM_CHANNEL_CH2);
+    LL_TIM_EnableCounter(TIM4);
+    LL_TIM_GenerateEvent_UPDATE(TIM4);
 }
