@@ -7,6 +7,7 @@
 #include <string.h>
 
 #include "balance_main.h"
+#include "motor.h"
 #include "tilt_sensor.h"
 
 extern I2C_HandleTypeDef hi2c2;
@@ -14,6 +15,26 @@ extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim3;
 
 static TiltSensor imu;
+
+void BALANCE_init_hardware() {
+    // Enable GPIO port clocks.
+    LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOA);
+    LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOB);
+    LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOC);
+    LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOD);
+
+    // Board LED is on PC13.
+    LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_13);
+    LL_GPIO_InitTypeDef gpio_init = {0};
+    gpio_init.Pin = LL_GPIO_PIN_13;
+    gpio_init.Mode = LL_GPIO_MODE_OUTPUT;
+    gpio_init.Speed = LL_GPIO_SPEED_FREQ_LOW;
+    gpio_init.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+    LL_GPIO_Init(GPIOC, &gpio_init);
+
+    Motor::init_hardware();
+}
+
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-noreturn"

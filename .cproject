@@ -86,7 +86,7 @@
                   <listOptionValue builtIn="false" value="__packed=&quot;__attribute__((__packed__))&quot;" />
                   <listOptionValue builtIn="false" value="USE_HAL_DRIVER" />
                   <listOptionValue builtIn="false" value="STM32F103xB" />
-                </option>
+                <listOptionValue builtIn="false" value="USE_FULL_LL_DRIVER" /></option>
                 								
                 <option id="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other.299676992" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other" value="-fmessage-length=0" valueType="string" />
                 								
@@ -115,7 +115,7 @@
                   <listOptionValue builtIn="false" value="__packed=&quot;__attribute__((__packed__))&quot;" />
                   <listOptionValue builtIn="false" value="USE_HAL_DRIVER" />
                   <listOptionValue builtIn="false" value="STM32F103xB" />
-                </option>
+                <listOptionValue builtIn="false" value="USE_FULL_LL_DRIVER" /></option>
                 								
                 <option id="fr.ac6.managedbuild.gnu.cpp.compiler.option.misc.other.1877778713" superClass="fr.ac6.managedbuild.gnu.cpp.compiler.option.misc.other" value="-fmessage-length=0" valueType="string" />
                 								
@@ -288,7 +288,7 @@
                   <listOptionValue builtIn="false" value="__packed=&quot;__attribute__((__packed__))&quot;" />
                   <listOptionValue builtIn="false" value="USE_HAL_DRIVER" />
                   <listOptionValue builtIn="false" value="STM32F103xB" />
-                </option>
+                <listOptionValue builtIn="false" value="USE_FULL_LL_DRIVER" /></option>
                 								
                 <option id="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other.299676992" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other" value="-fmessage-length=0" valueType="string" />
                 								
@@ -317,7 +317,7 @@
                   <listOptionValue builtIn="false" value="__packed=&quot;__attribute__((__packed__))&quot;" />
                   <listOptionValue builtIn="false" value="USE_HAL_DRIVER" />
                   <listOptionValue builtIn="false" value="STM32F103xB" />
-                </option>
+                <listOptionValue builtIn="false" value="USE_FULL_LL_DRIVER" /></option>
                 								
                 <option id="fr.ac6.managedbuild.gnu.cpp.compiler.option.misc.other.1877778713" superClass="fr.ac6.managedbuild.gnu.cpp.compiler.option.misc.other" value="-fmessage-length=0" valueType="string" />
                 								

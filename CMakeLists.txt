@@ -35,7 +35,7 @@ PROJECT(bluepill2wheel C CXX ASM)
 set(CMAKE_CXX_STANDARD 11)
 
 #add_definitions(-DARM_MATH_CM4 -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING -D__FPU_PRESENT=1)
-add_definitions(-D__weak=__attribute__\(\(weak\)\) -D__packed=__attribute__\(\(__packed__\)\) -DUSE_HAL_DRIVER -DSTM32F103xB)
+add_definitions(-D__weak=__attribute__\(\(weak\)\) -D__packed=__attribute__\(\(__packed__\)\) -DUSE_HAL_DRIVER -DSTM32F103xB -DUSE_FULL_LL_DRIVER)
 
 file(GLOB_RECURSE SOURCES "balancebot/*.*" "Middlewares/*.*" "startup/*.*" "Drivers/*.*" "Src/*.*" "Inc/*.*")
 
