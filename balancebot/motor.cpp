@@ -2,16 +2,18 @@
 // Created by tim on 4/21/19.
 //
 
-#include "motor.h"
-
 #include "main.h"
+#include "motor.h"
 
 void Motor::init_hardware() {
     // Initialize timer.
+    //
+    // Frequency = ClockFreq / ((PSC + 1) * (ARR + 1))
+    // 2008 Hz = 72 MHz / ((34+1)*(1023+1))
     LL_TIM_InitTypeDef timer_init = {0};
-    timer_init.Prescaler = 72;
+    timer_init.Prescaler = 34;
     timer_init.CounterMode = LL_TIM_COUNTERMODE_UP;
-    timer_init.Autoreload = 999;
+    timer_init.Autoreload = 1023;
     timer_init.ClockDivision = LL_TIM_CLOCKDIVISION_DIV1;
     LL_TIM_Init(TIM4, &timer_init);
     LL_TIM_DisableARRPreload(TIM4);
@@ -66,3 +68,18 @@ void Motor::init_hardware() {
     LL_TIM_EnableCounter(TIM4);
     LL_TIM_GenerateEvent_UPDATE(TIM4);
 }
+
+
+void Motor::set_speed(q15_t speed) {
+    // Compute absolute value, and saturating 0x8000 to 0x7ffff.
+    q15_t abs_speed = (speed > 0) ? speed : (q15_t)__QSUB16(0, speed);
+
+    // Convert from 15-bit fractional value to 10-bit duty cycle value.
+    int16_t pwm_value = abs_speed >> 5;
+    if (channel_ == 1) {
+        LL_TIM_OC_SetCompareCH1(TIM4, pwm_value);
+    } else {
+        LL_TIM_OC_SetCompareCH2(TIM4, pwm_value);
+    }
+}
+
