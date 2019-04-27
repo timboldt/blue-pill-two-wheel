@@ -37,9 +37,9 @@ set(CMAKE_CXX_STANDARD 11)
 #add_definitions(-DARM_MATH_CM4 -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING -D__FPU_PRESENT=1)
 add_definitions(-DARM_MATH_CM3 ${defines})
 
-file(GLOB_RECURSE SOURCES "balancebot/*.*" ${sources})
+file(GLOB_RECURSE SOURCES "balancebot/*.*" "RTT/*.*" ${sources})
 
-include_directories(balancebot ${includes})
+include_directories(balancebot RTT ${includes})
 
 add_executable($${PROJECT_NAME}.elf $${SOURCES} $${LINKER_SCRIPT})
 

@@ -6,6 +6,8 @@
 
 #include <string.h>
 
+#include "SEGGER_RTT.h"
+
 #include "balance_main.h"
 #include "motor.h"
 #include "tilt_sensor.h"
@@ -41,7 +43,8 @@ void BALANCE_init_hardware() {
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
-void BALANCE_do_work(void const * argument) {
+
+void BALANCE_do_work(void const *argument) {
     const uint16_t MPU9250_DEVICE_ADDRESS = 0x68;
 //    for (;;) {
 //        int status = imu.init(&hi2c2, MPU9250_DEVICE_ADDRESS);
@@ -51,19 +54,17 @@ void BALANCE_do_work(void const * argument) {
 //        printf("imu init failed, err: %d\n", status);
 //        HAL_Delay(100);
 //    }
-//    HAL_GPIO_TogglePin(Motor1Ch2_GPIO_Port, Motor1Ch2_Pin);
-//    HAL_GPIO_TogglePin(Motor2Ch2_GPIO_Port, Motor2Ch2_Pin);
+
 
     while (1) {
 //        int angle = imu.tilt_angle();
 //        printf("angle: %d\n", angle);
-        printf("%d %d\n", __HAL_TIM_GET_COUNTER(&htim2), __HAL_TIM_GET_COUNTER(&htim3));
+        SEGGER_RTT_printf(0, "%d %d\n",
+                          __HAL_TIM_GET_COUNTER(&htim2),
+                          __HAL_TIM_GET_COUNTER(&htim3));
         LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_13);
-//        HAL_GPIO_TogglePin(Motor1Ch1_GPIO_Port, Motor1Ch1_Pin);
-//        HAL_GPIO_TogglePin(Motor1Ch2_GPIO_Port, Motor1Ch2_Pin);
-//        HAL_GPIO_TogglePin(Motor2Ch1_GPIO_Port, Motor2Ch1_Pin);
-//        HAL_GPIO_TogglePin(Motor2Ch2_GPIO_Port, Motor2Ch2_Pin);
         HAL_Delay(1000);
     }
 }
+
 #pragma clang diagnostic pop
