@@ -58,7 +58,7 @@ void BALANCE_do_work(void const * argument) {
 //        int angle = imu.tilt_angle();
 //        printf("angle: %d\n", angle);
         printf("%d %d\n", __HAL_TIM_GET_COUNTER(&htim2), __HAL_TIM_GET_COUNTER(&htim3));
-        LL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+        LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_13);
 //        HAL_GPIO_TogglePin(Motor1Ch1_GPIO_Port, Motor1Ch1_Pin);
 //        HAL_GPIO_TogglePin(Motor1Ch2_GPIO_Port, Motor1Ch2_Pin);
 //        HAL_GPIO_TogglePin(Motor2Ch1_GPIO_Port, Motor2Ch1_Pin);
