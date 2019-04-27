@@ -4,7 +4,7 @@
 
 #include "main.h"
 
-#include <string.h>
+#include <cstring>
 
 #include "SEGGER_RTT.h"
 
@@ -18,7 +18,12 @@ extern TIM_HandleTypeDef htim3;
 
 static TiltSensor imu;
 
+static  uint8_t rtt_channel1_buffer[128];
+
 void BALANCE_init_hardware() {
+    SEGGER_RTT_Init();
+    SEGGER_RTT_ConfigUpBuffer(1, "DATA1", rtt_channel1_buffer, sizeof(rtt_channel1_buffer), SEGGER_RTT_MODE_BLOCK_IF_FIFO_FULL);
+
     // Enable GPIO port clocks.
     LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOA);
     LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOB);
@@ -44,8 +49,8 @@ void BALANCE_init_hardware() {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
 
-void BALANCE_do_work(void const *argument) {
-    const uint16_t MPU9250_DEVICE_ADDRESS = 0x68;
+void BALANCE_do_work(void const *) {
+    //const uint16_t MPU9250_DEVICE_ADDRESS = 0x68;
 //    for (;;) {
 //        int status = imu.init(&hi2c2, MPU9250_DEVICE_ADDRESS);
 //        if (status >= 0) {
@@ -56,12 +61,16 @@ void BALANCE_do_work(void const *argument) {
 //    }
 
 
-    while (1) {
+    while (true) {
 //        int angle = imu.tilt_angle();
 //        printf("angle: %d\n", angle);
-        SEGGER_RTT_printf(0, "%d %d\n",
-                          __HAL_TIM_GET_COUNTER(&htim2),
-                          __HAL_TIM_GET_COUNTER(&htim3));
+//        int ch = SEGGER_RTT_GetKey();
+//        if (ch > 0)
+//            printf("I saw a %c!", ch);
+        puts("This goes to channel 0.");
+        SEGGER_RTT_printf(1, "%d %d\n",
+               __HAL_TIM_GET_COUNTER(&htim2),
+               __HAL_TIM_GET_COUNTER(&htim3));
         LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_13);
         HAL_Delay(1000);
     }

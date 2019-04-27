@@ -26,6 +26,7 @@
 #include <string.h>
 
 #include "balance_main.h"
+#include "SEGGER_RTT.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -71,29 +72,22 @@ static void MX_TIM3_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-int __io_putchar(int ch)
-
-{
-
-    uint8_t ch8=ch;
-
-    HAL_UART_Transmit(&huart1,(uint8_t *)&ch8,1,HAL_MAX_DELAY);
+int __io_putchar(int ch) {
+    //uint8_t ch8=ch;
+    //HAL_UART_Transmit(&huart1,(uint8_t *)&ch8,1,HAL_MAX_DELAY);
+    SEGGER_RTT_PutChar(0, ch);
 
     return ch;
-
 }
 
-int __io_getchar()
+int __io_getchar() {
+    //uint8_t ch8;
+    //HAL_UART_Receive(&huart1,&ch8,1,HAL_MAX_DELAY);
+    //return 0;
 
-{
-
-    uint8_t ch8;
-
-    HAL_UART_Receive(&huart1,&ch8,1,HAL_MAX_DELAY);
-
-    return 0;
-
+    return SEGGER_RTT_GetKey();
 }
+
 /* USER CODE END 0 */
 
 /**
