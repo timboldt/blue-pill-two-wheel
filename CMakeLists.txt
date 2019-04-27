@@ -1,4 +1,3 @@
-#THIS FILE IS AUTO GENERATED FROM THE TEMPLATE! DO NOT CHANGE!
 SET(CMAKE_SYSTEM_NAME Generic)
 SET(CMAKE_SYSTEM_VERSION 1)
 cmake_minimum_required(VERSION 3.7)
@@ -14,11 +13,7 @@ set(CMAKE_OBJCOPY arm-none-eabi-objcopy)
 set(CMAKE_OBJDUMP arm-none-eabi-objdump)
 set(SIZE arm-none-eabi-size)
 
-SET(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/STM32F103C8Tx_FLASH.ld)
-
-#Uncomment for hardware floating point
-#SET(FPU_FLAGS "-mfloat-abi=hard -mfpu=fpv4-sp-d16")
-#add_definitions(-DARM_MATH_CM4 -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING -D__FPU_PRESENT=1)
+SET(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/cubemx/STM32F103C8Tx_FLASH.ld)
 
 #Uncomment for software floating point
 #SET(FPU_FLAGS "-mfloat-abi=soft")
@@ -34,12 +29,11 @@ SET(CMAKE_EXE_LINKER_FLAGS_INIT "-Wl,-gc-sections,--print-memory-usage -T ${LINK
 PROJECT(bluepill2wheel C CXX ASM)
 set(CMAKE_CXX_STANDARD 11)
 
-#add_definitions(-DARM_MATH_CM4 -DARM_MATH_MATRIX_CHECK -DARM_MATH_ROUNDING -D__FPU_PRESENT=1)
 add_definitions(-DARM_MATH_CM3 -D__weak=__attribute__\(\(weak\)\) -D__packed=__attribute__\(\(__packed__\)\) -DUSE_HAL_DRIVER -DSTM32F103xB -DUSE_FULL_LL_DRIVER)
 
-file(GLOB_RECURSE SOURCES "balancebot/*.*" "RTT/*.*" "Middlewares/*.*" "startup/*.*" "Drivers/*.*" "Src/*.*" "Inc/*.*")
+file(GLOB_RECURSE SOURCES "balancebot/*.*" "RTT/*.*" "cubemx/*.*" "cubemx/Drivers/*.*" "cubemx/Src/*.*" "cubemx/Inc/*.*")
 
-include_directories(balancebot RTT Inc Drivers/STM32F1xx_HAL_Driver/Inc Drivers/STM32F1xx_HAL_Driver/Inc/Legacy Drivers/CMSIS/Device/ST/STM32F1xx/Include Drivers/CMSIS/Include)
+include_directories(balancebot RTT cubemx/Inc cubemx/Drivers/STM32F1xx_HAL_Driver/Inc cubemx/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy cubemx/Drivers/CMSIS/Device/ST/STM32F1xx/Include cubemx/Drivers/CMSIS/Include)
 
 add_executable(${PROJECT_NAME}.elf ${SOURCES} ${LINKER_SCRIPT})
 
@@ -54,17 +48,3 @@ add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
         COMMAND ${CMAKE_OBJCOPY} -Obinary $<TARGET_FILE:${PROJECT_NAME}.elf> ${BIN_FILE}
         COMMENT "Building ${HEX_FILE}
 Building ${BIN_FILE}")
-
-add_custom_target(UPLOAD
-        arm-none-eabi-gdb
-        -iex "file $<TARGET_FILE:${PROJECT_NAME}.elf>"
-        -iex "target remote tcp:127.0.0.1:2331"
-        -iex "monitor program $<TARGET_FILE:${PROJECT_NAME}.elf>"
-        -iex "monitor reset init"
-        -iex "disconnect" -iex "quit")
-
-add_custom_target(JLINK_DEBUG
-        arm-none-eabi-gdb
-        -iex "file $<TARGET_FILE:${PROJECT_NAME}.elf>"
-        -iex "target remote tcp:127.0.0.1:2331"
-        -iex "disconnect" -iex "quit")

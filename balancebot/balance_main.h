@@ -8,8 +8,8 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    void BALANCE_init_hardware();
-    void BALANCE_do_work(void const * argument);
+    void BALANCE_init();
+    void BALANCE_loop();
 #ifdef __cplusplus
 };
 #endif
