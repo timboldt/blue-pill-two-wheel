@@ -2,7 +2,13 @@
 // Created by tim on 4/21/19.
 //
 
-#include "main.h"
+extern "C" {
+#include "stm32f1xx.h"
+#include "stm32f1xx_ll_gpio.h"
+#include <stm32f1xx_ll_tim.h>
+#include "SEGGER_RTT.h"
+}
+
 #include "motor.h"
 
 void Motor::init_hardware() {

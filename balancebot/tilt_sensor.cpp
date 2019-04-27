@@ -2,6 +2,8 @@
 // Created by tim on 4/17/19.
 //
 
+#include "main.h"
+
 #include "tilt_sensor.h"
 
 #include <cstring>

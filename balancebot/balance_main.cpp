@@ -2,11 +2,14 @@
 // Created by tim on 4/17/19.
 //
 
-#include "main.h"
+extern "C" {
+#include "stm32f1xx.h"
+#include "stm32f1xx_ll_bus.h"
+#include "stm32f1xx_ll_gpio.h"
+#include "SEGGER_RTT.h"
+}
 
 #include <cstring>
-
-#include "SEGGER_RTT.h"
 
 #include "balance_main.h"
 #include "motor.h"
@@ -18,11 +21,12 @@ extern TIM_HandleTypeDef htim3;
 
 static TiltSensor imu;
 
-static  uint8_t rtt_channel1_buffer[128];
+static uint8_t rtt_channel1_buffer[128];
 
 void BALANCE_init_hardware() {
     SEGGER_RTT_Init();
-    SEGGER_RTT_ConfigUpBuffer(1, "DATA1", rtt_channel1_buffer, sizeof(rtt_channel1_buffer), SEGGER_RTT_MODE_BLOCK_IF_FIFO_FULL);
+    SEGGER_RTT_ConfigUpBuffer(1, "DATA1", rtt_channel1_buffer, sizeof(rtt_channel1_buffer),
+                              SEGGER_RTT_MODE_BLOCK_IF_FIFO_FULL);
 
     // Enable GPIO port clocks.
     LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOA);
@@ -69,8 +73,8 @@ void BALANCE_do_work(void const *) {
 //            printf("I saw a %c!", ch);
         puts("This goes to channel 0.");
         SEGGER_RTT_printf(1, "%d %d\n",
-               __HAL_TIM_GET_COUNTER(&htim2),
-               __HAL_TIM_GET_COUNTER(&htim3));
+                          __HAL_TIM_GET_COUNTER(&htim2),
+                          __HAL_TIM_GET_COUNTER(&htim3));
         LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_13);
         HAL_Delay(1000);
     }
