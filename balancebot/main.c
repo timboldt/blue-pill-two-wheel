@@ -41,7 +41,7 @@ int main(void) {
   MX_TIM2_Init();
   MX_TIM3_Init();
 
-  BALANCE_init();
+  BALANCE_setup();
 
   while (1) {
     BALANCE_loop();

@@ -8,7 +8,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    void BALANCE_init();
+    void BALANCE_setup();
     void BALANCE_loop();
 #ifdef __cplusplus
 };

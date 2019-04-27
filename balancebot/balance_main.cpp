@@ -23,7 +23,7 @@ static TiltSensor imu;
 
 static uint8_t rtt_channel1_buffer[128];
 
-void BALANCE_init() {
+void BALANCE_setup() {
   SEGGER_RTT_Init();
   SEGGER_RTT_ConfigUpBuffer(1, "DATA1", rtt_channel1_buffer,
                             sizeof(rtt_channel1_buffer),
