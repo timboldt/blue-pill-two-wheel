@@ -72,7 +72,7 @@ void BALANCE_do_work(void const *) {
 //        if (ch > 0)
 //            printf("I saw a %c!", ch);
         puts("This goes to channel 0.");
-        SEGGER_RTT_printf(1, "%d %d\n",
+        SEGGER_RTT_printf(0, "%d %d\n",
                           __HAL_TIM_GET_COUNTER(&htim2),
                           __HAL_TIM_GET_COUNTER(&htim3));
         LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_13);

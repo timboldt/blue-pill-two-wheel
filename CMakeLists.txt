@@ -56,7 +56,15 @@ add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
 Building ${BIN_FILE}")
 
 add_custom_target(UPLOAD
-        arm-none-eabi-gdb -iex "target remote tcp:127.0.0.1:2331"
+        arm-none-eabi-gdb
+        -iex "file $<TARGET_FILE:${PROJECT_NAME}.elf>"
+        -iex "target remote tcp:127.0.0.1:2331"
         -iex "monitor program $<TARGET_FILE:${PROJECT_NAME}.elf>"
         -iex "monitor reset init"
+        -iex "disconnect" -iex "quit")
+
+add_custom_target(JLINK_DEBUG
+        arm-none-eabi-gdb
+        -iex "file $<TARGET_FILE:${PROJECT_NAME}.elf>"
+        -iex "target remote tcp:127.0.0.1:2331"
         -iex "disconnect" -iex "quit")
