@@ -66,11 +66,17 @@ void BALANCE_loop() {
   int ch = SEGGER_RTT_WaitKey();
   Motor* left_motor = Motor::get_motor(Motor::LEFT_MOTOR);
   Motor* right_motor = Motor::get_motor(Motor::RIGHT_MOTOR);
-  if (ch == 'q' && left_motor->power() < 0x7000) {
+  if (ch == 'q' && left_motor->power() < INT16_MAX - 0x0FFF) {
     left_motor->set_power(left_motor->power() + 0x0FFF);
   }
-  if (ch == 'w' && right_motor->power() < 0x7000) {
+  if (ch == 'a' && left_motor->power() > INT16_MIN + 0x0FFF) {
+    left_motor->set_power(left_motor->power() - 0x0FFF);
+  }
+  if (ch == 'w' && right_motor->power() < INT16_MAX - 0x0FFF) {
     right_motor->set_power(right_motor->power() + 0x0FFF);
+  }
+  if (ch == 's' && right_motor->power() > INT16_MIN + 0x0FFF) {
+    right_motor->set_power(right_motor->power() - 0x0FFF);
   }
   SEGGER_RTT_printf(0, "lpower=%d rpower=%d lencoder=%d rencoder=%d\n",
                     left_motor->power(), right_motor->power(),
