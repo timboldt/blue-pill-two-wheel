@@ -1,7 +1,3 @@
-//
-// Created by tim on 4/21/19.
-//
-
 #ifndef BLUEPILL2WHEEL_MOTOR_H
 #define BLUEPILL2WHEEL_MOTOR_H
 

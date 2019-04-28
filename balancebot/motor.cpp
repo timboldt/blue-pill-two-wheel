@@ -1,7 +1,3 @@
-//
-// Created by tim on 4/21/19.
-//
-
 extern "C" {
 #include <stm32f1xx_ll_tim.h>
 #include "SEGGER_RTT.h"

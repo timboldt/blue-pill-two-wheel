@@ -12,6 +12,7 @@ extern "C" {
 #include <cstring>
 
 #include "balance_main.h"
+#include "encoder.h"
 #include "motor.h"
 #include "tilt_sensor.h"
 
@@ -47,6 +48,7 @@ void BALANCE_setup() {
   gpio_init.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   LL_GPIO_Init(GPIOC, &gpio_init);
 
+  Encoder::init_hardware();
   Motor::init_hardware();
 
   // const uint16_t MPU9250_DEVICE_ADDRESS = 0x68;
@@ -63,9 +65,13 @@ void BALANCE_setup() {
 void BALANCE_loop() {
   //        int angle = imu.tilt_angle();
   //        printf("angle: %d\n", angle);
-  int ch = SEGGER_RTT_WaitKey();
+
   Motor* left_motor = Motor::get_motor(Motor::LEFT_MOTOR);
   Motor* right_motor = Motor::get_motor(Motor::RIGHT_MOTOR);
+  Encoder* left_encoder = Encoder::get_encoder(Encoder::LEFT_ENCODER);
+  Encoder* right_encoder = Encoder::get_encoder(Encoder::RIGHT_ENCODER);
+
+  int ch = SEGGER_RTT_WaitKey();
   if (ch == 'q' && left_motor->power() < INT16_MAX - 0x0FFF) {
     left_motor->set_power(left_motor->power() + 0x0FFF);
   }
@@ -80,8 +86,7 @@ void BALANCE_loop() {
   }
   SEGGER_RTT_printf(0, "lpower=%d rpower=%d lencoder=%d rencoder=%d\n",
                     left_motor->power(), right_motor->power(),
-                    __HAL_TIM_GET_COUNTER(&htim2),
-                    __HAL_TIM_GET_COUNTER(&htim3));
+                    left_encoder->speed(), right_encoder->speed());
   LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_13);
   HAL_Delay(10);
 }
