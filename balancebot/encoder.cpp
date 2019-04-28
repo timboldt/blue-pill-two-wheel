@@ -14,7 +14,14 @@ Encoder::Encoder(uint8_t encoder_id) { encoder_id_ = encoder_id; }
 
 uint8_t Encoder::encoder_id() const { return encoder_id_; }
 
-q15_t Encoder::speed() const { return 42; }
+q15_t Encoder::speed() const {
+  // TODO: this is a wrapping odometer - not speed. Make it correct.
+  if (encoder_id_ == LEFT_ENCODER) {
+    return LL_TIM_GetCounter(TIM2);
+  } else {
+    return LL_TIM_GetCounter(TIM3);
+  }
+}
 
 void Encoder::init_hardware() {
   // Encoder GPIO pins:
