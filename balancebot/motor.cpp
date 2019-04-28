@@ -11,6 +11,36 @@ extern "C" {
 
 #include "motor.h"
 
+Motor Motor::motors[] = { Motor(Motor::LEFT_MOTOR), Motor(Motor::RIGHT_MOTOR) };
+
+Motor::Motor(uint8_t motor_id) {
+    motor_id_ = motor_id;
+}
+
+uint8_t Motor::motor_id() const {
+    return motor_id_;
+}
+
+void Motor::set_power(q15_t power) {
+    power_ = power;
+
+    // Compute absolute value, and saturating 0x8000 to 0x7ffff.
+    // CAUTION: absolute power corrupts absolutely. :-)
+    q15_t abs_power = (power > 0) ? power : (q15_t)__QSUB16(0, power);
+
+    // Convert from 15-bit fractional value to 10-bit duty cycle value.
+    int16_t pwm_value = abs_power >> 5;
+    if (motor_id_ == LEFT_MOTOR) {
+        LL_TIM_OC_SetCompareCH1(TIM4, pwm_value);
+    } else {
+        LL_TIM_OC_SetCompareCH2(TIM4, pwm_value);
+    }
+}
+
+q15_t Motor::power() const {
+    return power_;
+}
+
 void Motor::init_hardware() {
     // Initialize timer.
     //
@@ -75,17 +105,11 @@ void Motor::init_hardware() {
     LL_TIM_GenerateEvent_UPDATE(TIM4);
 }
 
-
-void Motor::set_speed(q15_t speed) {
-    // Compute absolute value, and saturating 0x8000 to 0x7ffff.
-    q15_t abs_speed = (speed > 0) ? speed : (q15_t)__QSUB16(0, speed);
-
-    // Convert from 15-bit fractional value to 10-bit duty cycle value.
-    int16_t pwm_value = abs_speed >> 5;
-    if (channel_ == 1) {
-        LL_TIM_OC_SetCompareCH1(TIM4, pwm_value);
-    } else {
-        LL_TIM_OC_SetCompareCH2(TIM4, pwm_value);
+Motor* Motor::get_motor(uint8_t motor_id) {
+    for (Motor& motor : motors) {
+        if (motor.motor_id() == motor_id) {
+            return &motor;
+        }
     }
+    return nullptr;
 }
-

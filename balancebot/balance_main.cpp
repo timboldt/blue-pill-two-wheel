@@ -63,12 +63,19 @@ void BALANCE_setup() {
 void BALANCE_loop() {
   //        int angle = imu.tilt_angle();
   //        printf("angle: %d\n", angle);
-  //        int ch = SEGGER_RTT_GetKey();
-  //        if (ch > 0)
-  //            printf("I saw a %c!", ch);
-  puts("This goes to channel 0.");
-  SEGGER_RTT_printf(0, "%d %d\n", __HAL_TIM_GET_COUNTER(&htim2),
+  int ch = SEGGER_RTT_WaitKey();
+  Motor* left_motor = Motor::get_motor(Motor::LEFT_MOTOR);
+  Motor* right_motor = Motor::get_motor(Motor::RIGHT_MOTOR);
+  if (ch == 'q' && left_motor->power() < 0x7000) {
+    left_motor->set_power(left_motor->power() + 0x0FFF);
+  }
+  if (ch == 'w' && right_motor->power() < 0x7000) {
+    right_motor->set_power(right_motor->power() + 0x0FFF);
+  }
+  SEGGER_RTT_printf(0, "lpower=%d rpower=%d lencoder=%d rencoder=%d\n",
+                    left_motor->power(), right_motor->power(),
+                    __HAL_TIM_GET_COUNTER(&htim2),
                     __HAL_TIM_GET_COUNTER(&htim3));
   LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_13);
-  HAL_Delay(1000);
+  HAL_Delay(10);
 }
