@@ -21,9 +21,9 @@ void Motor::set_power(q15_t power) {
   if (!sign_is_same) {
     // TODO: make pins configurable.
     if (motor_id_ == LEFT_MOTOR) {
-      LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_2 | LL_GPIO_PIN_3);
-    } else {
       LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_4 | LL_GPIO_PIN_5);
+    } else {
+      LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_2 | LL_GPIO_PIN_3);
     }
   }
   // Compute absolute value, and saturating 0x8000 to 0x7ffff.
@@ -35,16 +35,20 @@ void Motor::set_power(q15_t power) {
   if (motor_id_ == LEFT_MOTOR) {
     LL_TIM_OC_SetCompareCH1(TIM4, pwm_value);
     if (power > 0) {
-      LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_2);
+      LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_4);
+      LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_5);
     } else {
-      LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_3);
+      LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_4);
+      LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_5);
     }
   } else {
     LL_TIM_OC_SetCompareCH2(TIM4, pwm_value);
     if (power > 0) {
-      LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_4);
+      LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_2);
+      LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_3);
     } else {
-      LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_5);
+      LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_2);
+      LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_3);
     }
   }
 
@@ -88,10 +92,10 @@ void Motor::init_hardware() {
   LL_TIM_DisableMasterSlaveMode(TIM4);
 
   // Direction control GPIO pins:
-  //    PA2  - Motor 1 Forward
-  //    PA3  - Motor 1 Reverse
-  //    PA4  - Motor 2 Forward
-  //    PA5  - Motor 2 Reverse
+  //    PA4  - Motor 1 Forward
+  //    PA5  - Motor 1 Reverse
+  //    PA2  - Motor 2 Forward
+  //    PA3  - Motor 2 Reverse
   LL_GPIO_ResetOutputPin(
       GPIOA, LL_GPIO_PIN_2 | LL_GPIO_PIN_3 | LL_GPIO_PIN_4 | LL_GPIO_PIN_5);
   LL_GPIO_InitTypeDef gpio_init = {0};

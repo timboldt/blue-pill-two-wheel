@@ -6,10 +6,10 @@ Reimplementation of Two-Wheel Balancing Bot using STM32CubeMX and plain C/C++.
 ```
 PA0  - Encoder 1 Channel A
 PA1  - Encoder 1 Channel B
-PA2  - Motor 1 Forward
-PA3  - Motor 1 Reverse
-PA4  - Motor 2 Forward
-PA5  - Motor 2 Reverse
+PA2  - Motor 2 Forward
+PA3  - Motor 2 Reverse
+PA4  - Motor 1 Forward
+PA5  - Motor 1 Reverse
 PA6  - Encoder 1 Channel A
 PA7  - Encoder 1 Channel B
 
