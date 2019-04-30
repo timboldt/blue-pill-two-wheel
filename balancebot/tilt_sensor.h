@@ -1,7 +1,3 @@
-//
-// Created by tim on 4/17/19.
-//
-
 #ifndef BLUEPILL2WHEEL_TILT_SENSOR_H
 #define BLUEPILL2WHEEL_TILT_SENSOR_H
 
