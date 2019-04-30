@@ -7,8 +7,6 @@ extern "C" {
 
 #include "motor.h"
 
-Motor Motor::motors[] = {Motor(Motor::LEFT_MOTOR), Motor(Motor::RIGHT_MOTOR)};
-
 Motor::Motor(uint8_t motor_id) {
   motor_id_ = motor_id;
   power_ = 0;
@@ -120,13 +118,4 @@ void Motor::init_hardware() {
   LL_TIM_CC_EnableChannel(TIM4, LL_TIM_CHANNEL_CH1 | LL_TIM_CHANNEL_CH2);
   LL_TIM_EnableCounter(TIM4);
   LL_TIM_GenerateEvent_UPDATE(TIM4);
-}
-
-Motor* Motor::get_motor(uint8_t motor_id) {
-  for (Motor& motor : motors) {
-    if (motor.motor_id() == motor_id) {
-      return &motor;
-    }
-  }
-  return nullptr;
 }

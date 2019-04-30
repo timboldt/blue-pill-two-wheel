@@ -7,9 +7,6 @@ extern "C" {
 
 #include "encoder.h"
 
-Encoder Encoder::encoders[] = {Encoder(Encoder::LEFT_ENCODER),
-                               Encoder(Encoder::RIGHT_ENCODER)};
-
 Encoder::Encoder(uint8_t encoder_id) { encoder_id_ = encoder_id; }
 
 uint8_t Encoder::encoder_id() const { return encoder_id_; }
@@ -77,13 +74,4 @@ void Encoder::init_hardware() {
   LL_TIM_DisableMasterSlaveMode(TIM3);
   LL_TIM_CC_EnableChannel(TIM3, LL_TIM_CHANNEL_CH1 | LL_TIM_CHANNEL_CH2);
   LL_TIM_EnableCounter(TIM3);
-}
-
-Encoder* Encoder::get_encoder(uint8_t encoder_id) {
-  for (Encoder& encoder : encoders) {
-    if (encoder.encoder_id() == encoder_id) {
-      return &encoder;
-    }
-  }
-  return nullptr;
 }

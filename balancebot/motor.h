@@ -6,8 +6,8 @@
 
 class Motor {
  public:
-  const static uint8_t LEFT_MOTOR = 1;
-  const static uint8_t RIGHT_MOTOR = 2;
+  const static uint8_t LEFT_MOTOR = 0;
+  const static uint8_t RIGHT_MOTOR = 1;
 
   // Motor ID determines which timer channel is used for PWM.
   Motor(uint8_t motor_id);
@@ -19,13 +19,10 @@ class Motor {
   q15_t power() const;
 
   static void init_hardware();
-  static Motor* get_motor(uint8_t motor_id);
 
  private:
   uint8_t motor_id_;
   q15_t power_;
-
-  static Motor motors[];
 };
 
 #endif  // BLUEPILL2WHEEL_MOTOR_H
