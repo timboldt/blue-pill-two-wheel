@@ -14,14 +14,13 @@ class Encoder {
 
   uint8_t encoder_id() const;
 
-  // TODO: Figure this out. Do we need both odometer (a 32-bit value) and
-  // speed (a time-based 16-bit value)? Where does time come from here?
-  q15_t speed() const;
+  q15_t counter_delta();
 
   static void init_hardware();
 
  private:
   uint8_t encoder_id_;
+  q15_t last_counter_;
 };
 
 #endif  // BLUEPILL2WHEEL_ENCODER_H

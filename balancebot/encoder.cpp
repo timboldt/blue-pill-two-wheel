@@ -7,17 +7,21 @@ extern "C" {
 
 #include "encoder.h"
 
-Encoder::Encoder(uint8_t encoder_id) { encoder_id_ = encoder_id; }
+Encoder::Encoder(uint8_t encoder_id) {
+  encoder_id_ = encoder_id;
+  last_counter_ = 0;
+}
 
 uint8_t Encoder::encoder_id() const { return encoder_id_; }
 
-q15_t Encoder::speed() const {
-  // TODO: this is a wrapping odometer - not speed. Make it correct.
+q15_t Encoder::counter_delta() {
+  q15_t saved_counter = last_counter_;
   if (encoder_id_ == LEFT_ENCODER) {
-    return LL_TIM_GetCounter(TIM2);
+    last_counter_ = (q15_t)LL_TIM_GetCounter(TIM2);
   } else {
-    return LL_TIM_GetCounter(TIM3);
+    last_counter_ = (q15_t)LL_TIM_GetCounter(TIM3);
   }
+  return last_counter_ - saved_counter;
 }
 
 void Encoder::init_hardware() {

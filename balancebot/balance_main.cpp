@@ -66,12 +66,15 @@ void BALANCE_loop() {
   //        int angle = imu.tilt_angle();
   //        printf("angle: %d\n", angle);
 
-  int ch = SEGGER_RTT_WaitKey();
+  // int ch = SEGGER_RTT_WaitKey();
   Wheel *left_wheel = Wheel::get_wheel(Wheel::LEFT_WHEEL);
   Wheel *right_wheel = Wheel::get_wheel(Wheel::RIGHT_WHEEL);
-  if (ch == 'q' && left_wheel->target_speed() < INT16_MAX - 0x0FFF) {
-    left_wheel->set_target_speed(left_wheel->target_speed() + 0x0FFF);
-  }
+  // if (ch == 'q' && left_wheel->target_speed() < INT16_MAX - 0x0FFF) {
+  //   left_wheel->set_target_speed(left_wheel->target_speed() + 0x0FFF);
+  // }
+  right_wheel->set_target_speed(12000);
+  left_wheel->update();
+  right_wheel->update();
   // if (ch == 'a' && left_motor->power() > INT16_MIN + 0x0FFF) {
   //   left_motor->set_power(left_motor->power() - 0x0FFF);
   // }
