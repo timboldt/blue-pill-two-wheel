@@ -31,8 +31,8 @@ class Wheel {
  private:
   WheelId wheel_id_;
   q15_t target_speed_;
-  q15_t actual_speed_;
-  arm_pid_instance_q15 pid_;
+  q31_t actual_speed_;
+  arm_pid_instance_q31 pid_;
   Motor motor_;
   Encoder encoder_;
 

@@ -84,9 +84,9 @@ void BALANCE_loop() {
   // if (ch == 's' && right_motor->power() > INT16_MIN + 0x0FFF) {
   //   right_motor->set_power(right_motor->power() - 0x0FFF);
   // }
-  SEGGER_RTT_printf(0, "%d %d %d %d\n", left_wheel->target_speed(),
-                    left_wheel->actual_speed(), right_wheel->target_speed(),
-                    right_wheel->actual_speed());
+  // SEGGER_RTT_printf(0, "%d %d %d %d\n", left_wheel->target_speed(),
+  //                   left_wheel->actual_speed(), right_wheel->target_speed(),
+  //                   right_wheel->actual_speed());
   LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_13);
   HAL_Delay(10);
 }
