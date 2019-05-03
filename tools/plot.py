@@ -6,7 +6,7 @@ x = []
 target = []
 actual = []
 
-with open("/home/tim/Desktop/wed2.txt",'r') as csvfile:
+with open("/home/tim/Desktop/plot.txt",'r') as csvfile:
     plots = csv.reader(csvfile, delimiter=' ')
     headers = next(plots, None)
     for row in plots:
@@ -15,5 +15,6 @@ with open("/home/tim/Desktop/wed2.txt",'r') as csvfile:
         actual.append(row[0])
         target.append(row[1])
 
-plt.plot(x,target, 'r', x, actual, 'b')
+plt.plot(x, target, 'b')
+plt.ylim(bottom=0)
 plt.show()

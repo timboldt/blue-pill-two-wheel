@@ -15,7 +15,7 @@ Motor::Motor(uint8_t motor_id) {
 uint8_t Motor::motor_id() const { return motor_id_; }
 
 void Motor::set_power(q15_t power) {
-  bool sign_is_same = ((power ^ power_) & 0x8000);
+  bool sign_is_same = !((power ^ power_) & 0x8000);
   if (!sign_is_same) {
     // TODO: make pins configurable.
     if (motor_id_ == LEFT_MOTOR) {

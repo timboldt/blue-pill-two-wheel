@@ -11,7 +11,8 @@
             "device": "STM32F103C8",
             "request": "launch",
             "type": "cortex-debug",
-            "servertype": "jlink"
+            "servertype": "jlink",
+            "runToMain": true
         }
     ]
 }
