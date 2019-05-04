@@ -17,9 +17,9 @@ uint8_t Encoder::encoder_id() const { return encoder_id_; }
 q15_t Encoder::counter_delta() {
   q15_t saved_counter = last_counter_;
   if (encoder_id_ == LEFT_ENCODER) {
-    last_counter_ = (q15_t)LL_TIM_GetCounter(TIM2);
+    last_counter_ = (q15_t)(LL_TIM_GetCounter(TIM2));
   } else {
-    last_counter_ = (q15_t)LL_TIM_GetCounter(TIM3);
+    last_counter_ = (q15_t)(LL_TIM_GetCounter(TIM3));
   }
   return last_counter_ - saved_counter;
 }
