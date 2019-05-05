@@ -286,7 +286,7 @@ static void MX_TIM2_Init(void)
   PA0-WKUP   ------> TIM2_CH1
   PA1   ------> TIM2_CH2 
   */
-  GPIO_InitStruct.Pin = Encoder1A_Pin|Encoder1B_Pin;
+  GPIO_InitStruct.Pin = LL_GPIO_PIN_0|LL_GPIO_PIN_1;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_FLOATING;
   LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
@@ -340,7 +340,7 @@ static void MX_TIM3_Init(void)
   PA6   ------> TIM3_CH1
   PA7   ------> TIM3_CH2 
   */
-  GPIO_InitStruct.Pin = Encoder2A_Pin|Encoder2B_Pin;
+  GPIO_InitStruct.Pin = LL_GPIO_PIN_6|LL_GPIO_PIN_7;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_FLOATING;
   LL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
@@ -422,7 +422,7 @@ static void MX_TIM4_Init(void)
   PB6   ------> TIM4_CH1
   PB7   ------> TIM4_CH2 
   */
-  GPIO_InitStruct.Pin = Motor1Pwm_Pin|Motor2Pwm_Pin;
+  GPIO_InitStruct.Pin = LL_GPIO_PIN_6|LL_GPIO_PIN_7;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_ALTERNATE;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
@@ -498,20 +498,20 @@ static void MX_GPIO_Init(void)
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOB);
 
   /**/
-  LL_GPIO_ResetOutputPin(LED_GPIO_Port, LED_Pin);
+  LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_13);
 
   /**/
-  LL_GPIO_ResetOutputPin(GPIOA, Motor1Ch1_Pin|Motor1Ch2_Pin|Motor2Ch1_Pin|Motor2Ch2_Pin);
+  LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_2|LL_GPIO_PIN_3|LL_GPIO_PIN_4|LL_GPIO_PIN_5);
 
   /**/
-  GPIO_InitStruct.Pin = LED_Pin;
+  GPIO_InitStruct.Pin = LL_GPIO_PIN_13;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-  LL_GPIO_Init(LED_GPIO_Port, &GPIO_InitStruct);
+  LL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /**/
-  GPIO_InitStruct.Pin = Motor1Ch1_Pin|Motor1Ch2_Pin|Motor2Ch1_Pin|Motor2Ch2_Pin;
+  GPIO_InitStruct.Pin = LL_GPIO_PIN_2|LL_GPIO_PIN_3|LL_GPIO_PIN_4|LL_GPIO_PIN_5;
   GPIO_InitStruct.Mode = LL_GPIO_MODE_OUTPUT;
   GPIO_InitStruct.Speed = LL_GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
