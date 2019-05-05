@@ -72,8 +72,10 @@ void BALANCE_loop() {
   // if (ch == 'q' && left_wheel->target_speed() < INT16_MAX - 0x0FFF) {
   //   left_wheel->set_target_speed(left_wheel->target_speed() + 0x0FFF);
   // }
-  left_wheel->set_target_speed(0x1fff);
-  right_wheel->set_target_speed(0x1fff);
+  // left_wheel->set_target_speed(0x1fff);
+  // right_wheel->set_target_speed(0x1fff);
+  left_wheel->set_target_speed(0xB000);
+  right_wheel->set_target_speed(0xB000);
   left_wheel->update();
   right_wheel->update();
   // if (ch == 'a' && left_motor->power() > INT16_MIN + 0x0FFF) {
