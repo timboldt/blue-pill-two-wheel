@@ -15,11 +15,11 @@ extern "C" {
 #include "tilt_sensor.h"
 #include "wheel.h"
 
-extern I2C_HandleTypeDef hi2c2;
+// extern I2C_HandleTypeDef hi2c2;
 extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim3;
 
-static TiltSensor imu;
+//static TiltSensor imu;
 
 static uint8_t rtt_channel1_buffer[128];
 

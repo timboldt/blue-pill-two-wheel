@@ -23,7 +23,10 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <string.h>
 
+#include "SEGGER_RTT.h"
+#include "balance_main.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -100,7 +103,7 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-
+  BALANCE_setup();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -108,7 +111,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
+    BALANCE_loop();
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -523,7 +526,19 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+int __io_putchar(int ch) {
+  // uint8_t ch8=ch;
+  // HAL_UART_Transmit(&huart1,(uint8_t *)&ch8,1,HAL_MAX_DELAY);
+  SEGGER_RTT_PutChar(0, ch);
+  return ch;
+}
 
+int __io_getchar() {
+  // uint8_t ch8;
+  // HAL_UART_Receive(&huart1,&ch8,1,HAL_MAX_DELAY);
+  // return 0;
+  return SEGGER_RTT_GetKey();
+}
 /* USER CODE END 4 */
 
 /**
@@ -555,7 +570,8 @@ void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
-
+  while (1) {
+  }
   /* USER CODE END Error_Handler_Debug */
 }
 
