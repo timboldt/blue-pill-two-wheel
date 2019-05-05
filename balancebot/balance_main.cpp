@@ -63,6 +63,8 @@ void BALANCE_setup() {
 }
 
 void BALANCE_loop() {
+  uint32_t tickstart = HAL_GetTick();
+
   //        int angle = imu.tilt_angle();
   //        printf("angle: %d\n", angle);
 
@@ -74,8 +76,8 @@ void BALANCE_loop() {
   // }
   // left_wheel->set_target_speed(0x1fff);
   // right_wheel->set_target_speed(0x1fff);
-  left_wheel->set_target_speed(0xB000);
-  right_wheel->set_target_speed(0xB000);
+  left_wheel->set_target_speed(0x2000);
+  right_wheel->set_target_speed(0x2000);
   left_wheel->update();
   right_wheel->update();
   // if (ch == 'a' && left_motor->power() > INT16_MIN + 0x0FFF) {
@@ -91,5 +93,9 @@ void BALANCE_loop() {
   //                   left_wheel->actual_speed(), right_wheel->target_speed(),
   //                   right_wheel->actual_speed());
   LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_13);
-  HAL_Delay(10);
+
+  const uint32_t LOOP_MS = 10;  // 100 Hz
+  SEGGER_RTT_printf(0, "Loop time: %ld\n", HAL_GetTick() - tickstart);
+  while ((HAL_GetTick() - tickstart) < LOOP_MS) { __NOP(); }
+  SEGGER_RTT_printf(0, "Total loop time: %ld\n", HAL_GetTick() - tickstart);
 }
