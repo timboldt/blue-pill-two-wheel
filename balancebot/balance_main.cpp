@@ -15,11 +15,7 @@ extern "C" {
 #include "tilt_sensor.h"
 #include "wheel.h"
 
-// extern I2C_HandleTypeDef hi2c2;
-extern TIM_HandleTypeDef htim2;
-extern TIM_HandleTypeDef htim3;
-
-//static TiltSensor imu;
+static TiltSensor imu;
 
 static uint8_t rtt_channel1_buffer[128];
 
@@ -29,16 +25,12 @@ void BALANCE_setup() {
                             sizeof(rtt_channel1_buffer),
                             SEGGER_RTT_MODE_BLOCK_IF_FIFO_FULL);
 
-  // Enable GPIO port clocks.
-  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOA);
-  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOB);
-  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOC);
-  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOD);
-
-  // Enable the timer peripherals.
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM2);
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM3);
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM4);
+  // Enable peripheral clocks.
+  LL_APB2_GRP1_EnableClock(
+      LL_APB2_GRP1_PERIPH_GPIOA | LL_APB2_GRP1_PERIPH_GPIOB |
+      LL_APB2_GRP1_PERIPH_GPIOC | LL_APB2_GRP1_PERIPH_GPIOD);
+  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM2 | LL_APB1_GRP1_PERIPH_TIM3 |
+                           LL_APB1_GRP1_PERIPH_TIM4 | LL_APB1_GRP1_PERIPH_I2C2);
 
   // Board LED is on PC13.
   LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_13);
@@ -49,24 +41,15 @@ void BALANCE_setup() {
   gpio_init.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
   LL_GPIO_Init(GPIOC, &gpio_init);
 
+  TiltSensor::init_hardware();
   Wheel::init_hardware();
-
-  // const uint16_t MPU9250_DEVICE_ADDRESS = 0x68;
-  //    for (;;) {
-  //        int status = imu.init(&hi2c2, MPU9250_DEVICE_ADDRESS);
-  //        if (status >= 0) {
-  //            break;
-  //        }
-  //        printf("imu init failed, err: %d\n", status);
-  //        HAL_Delay(100);
-  //    }
 }
 
 void BALANCE_loop() {
   uint32_t tickstart = HAL_GetTick();
 
-  //        int angle = imu.tilt_angle();
-  //        printf("angle: %d\n", angle);
+  int angle = imu.tilt_angle();
+  SEGGER_RTT_printf(0, "angle: %d\n", angle);
 
   // int ch = SEGGER_RTT_WaitKey();
   Wheel *left_wheel = Wheel::get_wheel(Wheel::LEFT_WHEEL);
@@ -74,10 +57,10 @@ void BALANCE_loop() {
   // if (ch == 'q' && left_wheel->target_speed() < INT16_MAX - 0x0FFF) {
   //   left_wheel->set_target_speed(left_wheel->target_speed() + 0x0FFF);
   // }
-  // left_wheel->set_target_speed(0x1fff);
-  // right_wheel->set_target_speed(0x1fff);
-  left_wheel->set_target_speed(0x2000);
-  right_wheel->set_target_speed(0x2000);
+  // left_wheel->set_target_speed(0x2000);
+  // right_wheel->set_target_speed(0x2000);
+  left_wheel->set_target_speed(0);
+  right_wheel->set_target_speed(0);
   left_wheel->update();
   right_wheel->update();
   // if (ch == 'a' && left_motor->power() > INT16_MIN + 0x0FFF) {
@@ -96,6 +79,8 @@ void BALANCE_loop() {
 
   const uint32_t LOOP_MS = 10;  // 100 Hz
   SEGGER_RTT_printf(0, "Loop time: %ld\n", HAL_GetTick() - tickstart);
-  while ((HAL_GetTick() - tickstart) < LOOP_MS) { __NOP(); }
+  while ((HAL_GetTick() - tickstart) < LOOP_MS) {
+    __NOP();
+  }
   SEGGER_RTT_printf(0, "Total loop time: %ld\n", HAL_GetTick() - tickstart);
 }

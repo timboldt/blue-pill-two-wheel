@@ -1,19 +1,21 @@
 #ifndef BLUEPILL2WHEEL_TILT_SENSOR_H
 #define BLUEPILL2WHEEL_TILT_SENSOR_H
 
-//#include "main.h"
+extern "C" {
+#include <arm_math.h>
+}
 
-// class TiltSensor {
-// public:
-//     int init(I2C_HandleTypeDef *i2c, uint16_t address);
+class TiltSensor {
+ public:
+  // Returns the tilt angle as a fraction unit fraction
+  // of the distance between +/-45 degrees (straight up is 0).
+  q15_t tilt_angle();
 
-//     // Returns the tilt angle, in degrees.
-//     // Straight up is zero.
-//     int tilt_angle();
+  static void init_hardware();
 
-// private:
-//     I2C_HandleTypeDef *i2c;  // Does not own.
-// };
+ private:
+  q15_t angle = 0;
+  uint32_t prev_ticks = 0;
+};
 
-
-#endif //BLUEPILL2WHEEL_TILT_SENSOR_H
+#endif  // BLUEPILL2WHEEL_TILT_SENSOR_H
