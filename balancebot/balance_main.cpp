@@ -49,7 +49,7 @@ void BALANCE_loop() {
   uint32_t tickstart = HAL_GetTick();
 
   int angle = imu.tilt_angle();
-  SEGGER_RTT_printf(0, "angle: %d\n", angle);
+  //SEGGER_RTT_printf(0, "angle: %d\n", angle);
 
   // int ch = SEGGER_RTT_WaitKey();
   Wheel *left_wheel = Wheel::get_wheel(Wheel::LEFT_WHEEL);
@@ -78,9 +78,9 @@ void BALANCE_loop() {
   LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_13);
 
   const uint32_t LOOP_MS = 10;  // 100 Hz
-  SEGGER_RTT_printf(0, "Loop time: %ld\n", HAL_GetTick() - tickstart);
+  //SEGGER_RTT_printf(0, "Loop time: %ld\n", HAL_GetTick() - tickstart);
   while ((HAL_GetTick() - tickstart) < LOOP_MS) {
     __NOP();
   }
-  SEGGER_RTT_printf(0, "Total loop time: %ld\n", HAL_GetTick() - tickstart);
+  //SEGGER_RTT_printf(0, "Total loop time: %ld\n", HAL_GetTick() - tickstart);
 }

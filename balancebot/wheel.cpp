@@ -39,9 +39,9 @@ void Wheel::update() {
   q31_t pid_output = arm_pid_q31(&pid_, (q31_t)target_speed_ - actual_speed_);
   q15_t power = (q15_t)__SSAT(pid_output << 8, 16);
   motor_.set_power(power);
-  if (wheel_id_ == RIGHT_WHEEL) {
-    SEGGER_RTT_printf(0, "%d %ld %d\n", target_speed_, actual_speed_, power);
-  }
+  // if (wheel_id_ == RIGHT_WHEEL) {
+  //   SEGGER_RTT_printf(0, "%d %ld %d\n", target_speed_, actual_speed_, power);
+  // }
 }
 
 void Wheel::init_hardware() {

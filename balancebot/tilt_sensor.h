@@ -14,8 +14,8 @@ class TiltSensor {
   static void init_hardware();
 
  private:
-  q15_t angle = 0;
-  uint32_t prev_ticks = 0;
+  q15_t angle_ = 0;
+  uint32_t prev_ticks_ = 0;
 };
 
 #endif  // BLUEPILL2WHEEL_TILT_SENSOR_H
