@@ -1,7 +1,7 @@
 [PreviousGenFiles]
-HeaderPath=/home/tim/workspace/bluepill2wheel/cubemx/Inc
+HeaderPath=/home/tim/workspace/bluepill2wheel/third_party/cubemx/Inc
 HeaderFiles=stm32f1xx_it.h;stm32_assert.h;stm32f1xx_hal_conf.h;main.h;FreeRTOSConfig.h;
-SourcePath=/home/tim/workspace/bluepill2wheel/cubemx/Src
+SourcePath=/home/tim/workspace/bluepill2wheel/third_party/cubemx/Src
 SourceFiles=stm32f1xx_it.c;stm32f1xx_hal_msp.c;stm32f1xx_hal_timebase_tim.c;main.c;freertos.c;
 
 [PreviousLibFiles]
