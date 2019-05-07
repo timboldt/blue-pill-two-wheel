@@ -31,9 +31,20 @@ set(CMAKE_CXX_STANDARD 11)
 
 add_definitions(-DARM_MATH_CM3 -D__weak=__attribute__\(\(weak\)\) -D__packed=__attribute__\(\(__packed__\)\) -DUSE_HAL_DRIVER -DSTM32F103xB -DUSE_FULL_LL_DRIVER)
 
-file(GLOB_RECURSE SOURCES "balancebot/*.*" "RTT/*.*" "cubemx/*.*" "cubemx/Drivers/*.*" "cubemx/Src/*.*" "cubemx/Inc/*.*")
+file(GLOB_RECURSE SOURCES "balancebot/*.*" "RTT/*.*" "cubemx/*.*")
 
-include_directories(balancebot RTT cubemx/Inc cubemx/Drivers/STM32F1xx_HAL_Driver/Inc cubemx/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy cubemx/Drivers/CMSIS/Device/ST/STM32F1xx/Include cubemx/Drivers/CMSIS/Include)
+include_directories(
+    balancebot
+    cubemx/Drivers/STM32F1xx_HAL_Driver/Inc
+    cubemx/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy
+    cubemx/Drivers/CMSIS/Device/ST/STM32F1xx/Include
+    cubemx/Drivers/CMSIS/Include
+    cubemx/Inc
+    cubemx/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS
+    cubemx/Middlewares/Third_Party/FreeRTOS/Source/include
+    cubemx/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3
+    RTT
+)
 
 add_executable(${PROJECT_NAME}.elf ${SOURCES} ${LINKER_SCRIPT})
 

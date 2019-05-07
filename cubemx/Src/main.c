@@ -20,6 +20,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "cmsis_os.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -51,6 +52,12 @@ SPI_HandleTypeDef hspi2;
 
 UART_HandleTypeDef huart1;
 
+osThreadId defaultTaskHandle;
+uint32_t defaultTaskBuffer[ 128 ];
+osStaticThreadDef_t defaultTaskControlBlock;
+osThreadId balanceTaskHandle;
+uint32_t balanceTaskBuffer[ 128 ];
+osStaticThreadDef_t balanceTaskControlBlock;
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -64,6 +71,9 @@ static void MX_TIM4_Init(void);
 static void MX_SPI2_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_TIM3_Init(void);
+void StartDefaultTask(void const * argument);
+extern void BALANCE_main(void const * argument);
+
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -104,11 +114,44 @@ int main(void)
   BALANCE_setup();
   /* USER CODE END 2 */
 
+  /* USER CODE BEGIN RTOS_MUTEX */
+  /* add mutexes, ... */
+  /* USER CODE END RTOS_MUTEX */
+
+  /* USER CODE BEGIN RTOS_SEMAPHORES */
+  /* add semaphores, ... */
+  /* USER CODE END RTOS_SEMAPHORES */
+
+  /* USER CODE BEGIN RTOS_TIMERS */
+  /* start timers, add new ones, ... */
+  /* USER CODE END RTOS_TIMERS */
+
+  /* USER CODE BEGIN RTOS_QUEUES */
+  /* add queues, ... */
+  /* USER CODE END RTOS_QUEUES */
+
+  /* Create the thread(s) */
+  /* definition and creation of defaultTask */
+  osThreadStaticDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128, defaultTaskBuffer, &defaultTaskControlBlock);
+  defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
+
+  /* definition and creation of balanceTask */
+  osThreadStaticDef(balanceTask, BALANCE_main, osPriorityAboveNormal, 0, 128, balanceTaskBuffer, &balanceTaskControlBlock);
+  balanceTaskHandle = osThreadCreate(osThread(balanceTask), NULL);
+
+  /* USER CODE BEGIN RTOS_THREADS */
+  /* add threads, ... */
+  /* USER CODE END RTOS_THREADS */
+
+  /* Start scheduler */
+  osKernelStart();
+  
+  /* We should never get here as control is now taken by the scheduler */
+
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    BALANCE_loop();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -478,6 +521,36 @@ int __io_getchar() {
   return SEGGER_RTT_GetKey();
 }
 /* USER CODE END 4 */
+
+/* USER CODE BEGIN Header_StartDefaultTask */
+/**
+  * @brief  Function implementing the defaultTask thread.
+  * @param  argument: Not used 
+  * @retval None
+  */
+/* USER CODE END Header_StartDefaultTask */
+void StartDefaultTask(void const * argument)
+{
+
+  /* USER CODE BEGIN 5 */
+  
+  // Board LED is on PC13.
+  LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_13);
+  LL_GPIO_InitTypeDef gpio_init = {0};
+  gpio_init.Pin = LL_GPIO_PIN_13;
+  gpio_init.Mode = LL_GPIO_MODE_OUTPUT;
+  gpio_init.Speed = LL_GPIO_SPEED_FREQ_LOW;
+  gpio_init.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
+  LL_GPIO_Init(GPIOC, &gpio_init);
+
+  /* Infinite loop */
+  for(;;)
+  {
+    LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_13);
+    osDelay(1000);
+  }
+  /* USER CODE END 5 */ 
+}
 
 /**
   * @brief  Period elapsed callback in non blocking mode

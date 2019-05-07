@@ -4,6 +4,7 @@
 
 extern "C" {
 #include "SEGGER_RTT.h"
+#include "cmsis_os.h"
 #include "stm32f1xx.h"
 #include "stm32f1xx_ll_bus.h"
 #include "stm32f1xx_ll_gpio.h"
@@ -15,9 +16,25 @@ extern "C" {
 #include "tilt_sensor.h"
 #include "wheel.h"
 
+extern "C" {
+void BALANCE_main(void const *argument);
+}
+
 static TiltSensor imu;
 
 static uint8_t rtt_channel1_buffer[128];
+
+void BALANCE_main(void const *argument) {
+  // BALANCE_setup();
+  for (;;) {
+    uint32_t tickstart = HAL_GetTick();
+    BALANCE_loop();
+
+    // TODO: Make this use a timer for greater consistency.
+    const uint32_t LOOP_MS = 10;  // 100 Hz
+    osDelay(HAL_GetTick() - tickstart);
+  }
+}
 
 void BALANCE_setup() {
   SEGGER_RTT_Init();
@@ -32,24 +49,13 @@ void BALANCE_setup() {
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM2 | LL_APB1_GRP1_PERIPH_TIM3 |
                            LL_APB1_GRP1_PERIPH_TIM4 | LL_APB1_GRP1_PERIPH_I2C2);
 
-  // Board LED is on PC13.
-  LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_13);
-  LL_GPIO_InitTypeDef gpio_init = {0};
-  gpio_init.Pin = LL_GPIO_PIN_13;
-  gpio_init.Mode = LL_GPIO_MODE_OUTPUT;
-  gpio_init.Speed = LL_GPIO_SPEED_FREQ_LOW;
-  gpio_init.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-  LL_GPIO_Init(GPIOC, &gpio_init);
-
   TiltSensor::init_hardware();
   Wheel::init_hardware();
 }
 
 void BALANCE_loop() {
-  uint32_t tickstart = HAL_GetTick();
-
   int angle = imu.tilt_angle();
-  //SEGGER_RTT_printf(0, "angle: %d\n", angle);
+  // SEGGER_RTT_printf(0, "angle: %d\n", angle);
 
   // int ch = SEGGER_RTT_WaitKey();
   Wheel *left_wheel = Wheel::get_wheel(Wheel::LEFT_WHEEL);
@@ -75,12 +81,4 @@ void BALANCE_loop() {
   // SEGGER_RTT_printf(0, "%d %d %d %d\n", left_wheel->target_speed(),
   //                   left_wheel->actual_speed(), right_wheel->target_speed(),
   //                   right_wheel->actual_speed());
-  LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_13);
-
-  const uint32_t LOOP_MS = 10;  // 100 Hz
-  //SEGGER_RTT_printf(0, "Loop time: %ld\n", HAL_GetTick() - tickstart);
-  while ((HAL_GetTick() - tickstart) < LOOP_MS) {
-    __NOP();
-  }
-  //SEGGER_RTT_printf(0, "Total loop time: %ld\n", HAL_GetTick() - tickstart);
 }

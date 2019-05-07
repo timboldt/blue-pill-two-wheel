@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "cstdint": "cpp"
+        "cstdint": "cpp",
+        "cmsis_os.h": "c"
     }
 }
