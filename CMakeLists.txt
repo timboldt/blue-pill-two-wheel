@@ -13,7 +13,7 @@ set(CMAKE_OBJCOPY arm-none-eabi-objcopy)
 set(CMAKE_OBJDUMP arm-none-eabi-objdump)
 set(SIZE arm-none-eabi-size)
 
-SET(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/cubemx/STM32F103C8Tx_FLASH.ld)
+SET(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/third_party/cubemx/STM32F103C8Tx_FLASH.ld)
 
 #Uncomment for software floating point
 #SET(FPU_FLAGS "-mfloat-abi=soft")
@@ -31,19 +31,19 @@ set(CMAKE_CXX_STANDARD 11)
 
 add_definitions(-DARM_MATH_CM3 -D__weak=__attribute__\(\(weak\)\) -D__packed=__attribute__\(\(__packed__\)\) -DUSE_HAL_DRIVER -DSTM32F103xB -DUSE_FULL_LL_DRIVER)
 
-file(GLOB_RECURSE SOURCES "balancebot/*.*" "RTT/*.*" "cubemx/*.*")
+file(GLOB_RECURSE SOURCES "balancebot/*.*" "third_party/RTT/*.*" "third_party/cubemx/*.*")
 
 include_directories(
     balancebot
-    cubemx/Drivers/STM32F1xx_HAL_Driver/Inc
-    cubemx/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy
-    cubemx/Drivers/CMSIS/Device/ST/STM32F1xx/Include
-    cubemx/Drivers/CMSIS/Include
-    cubemx/Inc
-    cubemx/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS
-    cubemx/Middlewares/Third_Party/FreeRTOS/Source/include
-    cubemx/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3
-    RTT
+    third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Inc
+    third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Inc/Legacy
+    third_party/cubemx/Drivers/CMSIS/Device/ST/STM32F1xx/Include
+    third_party/cubemx/Drivers/CMSIS/Include
+    third_party/cubemx/Inc
+    third_party/cubemx/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS
+    third_party/cubemx/Middlewares/Third_Party/FreeRTOS/Source/include
+    third_party/cubemx/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3
+    third_party/RTT
 )
 
 add_executable(${PROJECT_NAME}.elf ${SOURCES} ${LINKER_SCRIPT})
