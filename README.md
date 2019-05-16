@@ -1,5 +1,14 @@
 # bluepill2wheel
-Reimplementation of Two-Wheel Balancing Bot using STM32CubeMX and plain C/C++.
+
+This is a reimplementation of my original Arduino-based Two-Wheel Balancing Bot, this time using STM32CubeMX and plain C/C++.
+
+Project status: The hardware is complete and all peripherals are working from
+code. The PID logic is still a hack and needs work before it will balance
+properly.
+
+### Disclaimer
+
+This is not an officially supported Google product.
 
 ### Pinouts
 
