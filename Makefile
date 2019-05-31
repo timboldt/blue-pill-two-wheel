@@ -2,7 +2,7 @@
 #  Project
 ######################################################################
 
-BINARY		= bin/main
+BINARY		= bin/bluepill2wheel
 SRCFILES	= src/main.c
 
 all: elf bin
