@@ -16,6 +16,8 @@
 
 extern "C" {
 #include "SEGGER_RTT.h"
+
+void WHEEL_InitHardware(void);
 }
 
 const uint32_t UPDATES_PER_SECOND = 100;
@@ -56,6 +58,10 @@ void Wheel::update() {
   // if (wheel_id_ == RIGHT_WHEEL) {
   //   SEGGER_RTT_printf(0, "%d %ld %d\n", target_speed_, actual_speed_, power);
   // }
+}
+
+void WHEEL_InitHardware(void) {
+  Wheel::init_hardware();
 }
 
 void Wheel::init_hardware() {

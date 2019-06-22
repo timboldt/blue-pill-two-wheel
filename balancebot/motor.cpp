@@ -16,6 +16,7 @@ extern "C" {
 #include <stm32f1xx_ll_tim.h>
 #include "SEGGER_RTT.h"
 #include "stm32f1xx.h"
+#include "stm32f1xx_ll_bus.h"
 #include "stm32f1xx_ll_gpio.h"
 }
 
@@ -70,6 +71,11 @@ void Motor::set_power(q15_t power) {
 q15_t Motor::power() const { return power_; }
 
 void Motor::init_hardware() {
+  // Enable peripheral clocks.
+  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOA |
+                           LL_APB2_GRP1_PERIPH_GPIOB);
+  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM4);
+
   // Initialize timer.
   //
   // Frequency = ClockFreq / ((PSC + 1) * (ARR + 1))

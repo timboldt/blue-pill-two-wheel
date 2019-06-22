@@ -3,6 +3,7 @@
         "balancebot",
         "third_party/cubemx/Inc/",
         "third_party/cubemx/Drivers/CMSIS/Device/ST/STM32F1xx/Include",
+        "third_party/cubemx/Drivers/CMSIS/Include",
         "third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Inc",
         "third_party/cubemx/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS",
         "third_party/cubemx/Middlewares/Third_Party/FreeRTOS/Source/include",

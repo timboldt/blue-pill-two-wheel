@@ -18,6 +18,8 @@ extern "C" {
 #include <arm_math.h>
 #include "SEGGER_RTT.h"
 #include "main.h"
+
+void TILT_InitHardware(void);
 }
 
 #include <cstring>
@@ -37,7 +39,16 @@ const uint16_t MPU9250_RA_WHO_AM_I = 0x75;
 const uint16_t MPU9250_RA_PWR_MGMT_1 = 0x6B;
 const uint16_t MPU9250_RA_ACCEL_XOUT_H = 0x3B;
 
+void TILT_InitHardware(void) {
+  TiltSensor::init_hardware();
+}
+
 void TiltSensor::init_hardware() {
+
+  // Enable peripheral clocks.
+  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOB);
+  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_I2C2);
+
   // I2C2 GPIO Configuration:
   //    PB10   ------> I2C2_SCL
   //    PB11   ------> I2C2_SDA

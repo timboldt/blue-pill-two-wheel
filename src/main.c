@@ -32,13 +32,18 @@ uint32_t balanceTaskBuffer[128];
 osStaticThreadDef_t balanceTaskControlBlock;
 
 void SystemClock_Config(void);
+void SetupRTT(void);
+void TILT_InitHardware(void);
+void WHEEL_InitHardware(void);
 void StartDefaultTask(void const *argument);
 extern void BALANCE_main(void const *argument);
 
 int main(void) {
   HAL_Init();
   SystemClock_Config();
-  BALANCE_setup();
+  SetupRTT();
+  TILT_InitHardware();
+  WHEEL_InitHardware();
 
   osThreadStaticDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128,
                     defaultTaskBuffer, &defaultTaskControlBlock);
@@ -84,6 +89,14 @@ void SystemClock_Config(void) {
   }
 }
 
+void SetupRTT(void) {
+  static uint8_t rtt_channel1_buffer[128];
+  SEGGER_RTT_Init();
+  SEGGER_RTT_ConfigUpBuffer(1, "DATA1", rtt_channel1_buffer,
+                            sizeof(rtt_channel1_buffer),
+                            SEGGER_RTT_MODE_BLOCK_IF_FIFO_FULL);
+}
+
 int __io_putchar(int ch) {
   // uint8_t ch8=ch;
   // HAL_UART_Transmit(&huart1,(uint8_t *)&ch8,1,HAL_MAX_DELAY);
@@ -100,6 +113,7 @@ int __io_getchar() {
 
 void StartDefaultTask(void const *argument) {
   // Board LED is on PC13.
+  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOC);
   LL_GPIO_ResetOutputPin(GPIOC, LL_GPIO_PIN_13);
   LL_GPIO_InitTypeDef gpio_init = {0};
   gpio_init.Pin = LL_GPIO_PIN_13;

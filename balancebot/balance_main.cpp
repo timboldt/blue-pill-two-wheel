@@ -32,10 +32,7 @@ void BALANCE_main(void const *argument);
 
 static TiltSensor imu;
 
-static uint8_t rtt_channel1_buffer[128];
-
 void BALANCE_main(void const *argument) {
-  // BALANCE_setup();
   for (;;) {
     uint32_t tickstart = HAL_GetTick();
     BALANCE_loop();
@@ -44,23 +41,6 @@ void BALANCE_main(void const *argument) {
     const uint32_t LOOP_MS = 10;  // 100 Hz
     osDelay(HAL_GetTick() - tickstart);
   }
-}
-
-void BALANCE_setup() {
-  SEGGER_RTT_Init();
-  SEGGER_RTT_ConfigUpBuffer(1, "DATA1", rtt_channel1_buffer,
-                            sizeof(rtt_channel1_buffer),
-                            SEGGER_RTT_MODE_BLOCK_IF_FIFO_FULL);
-
-  // Enable peripheral clocks.
-  LL_APB2_GRP1_EnableClock(
-      LL_APB2_GRP1_PERIPH_GPIOA | LL_APB2_GRP1_PERIPH_GPIOB |
-      LL_APB2_GRP1_PERIPH_GPIOC | LL_APB2_GRP1_PERIPH_GPIOD);
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_TIM2 | LL_APB1_GRP1_PERIPH_TIM3 |
-                           LL_APB1_GRP1_PERIPH_TIM4 | LL_APB1_GRP1_PERIPH_I2C2);
-
-  TiltSensor::init_hardware();
-  Wheel::init_hardware();
 }
 
 void BALANCE_loop() {
