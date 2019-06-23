@@ -23,7 +23,7 @@ void TILT_InitHardware(void);
 }
 
 #include <cstring>
-
+/* 
 extern I2C_HandleTypeDef hi2c2;
 
 const uint16_t MPU9250_DEVICE_ADDRESS = 0x68;
@@ -38,13 +38,13 @@ const uint16_t MPU9250_RA_ACCEL_CONFIG = 0x1C;
 const uint16_t MPU9250_RA_WHO_AM_I = 0x75;
 const uint16_t MPU9250_RA_PWR_MGMT_1 = 0x6B;
 const uint16_t MPU9250_RA_ACCEL_XOUT_H = 0x3B;
-
+*/
 void TILT_InitHardware(void) {
   TiltSensor::init_hardware();
 }
 
 void TiltSensor::init_hardware() {
-
+/*
   // Enable peripheral clocks.
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_GPIOB);
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_I2C2);
@@ -137,10 +137,12 @@ void TiltSensor::init_hardware() {
     }
     SEGGER_RTT_printf(0, "Imu init failed, err: %d\n", status);
     HAL_Delay(100);
-  }
+  }*/
 }
 
 q15_t TiltSensor::tilt_angle() {
+  return 0;
+  /*
   uint8_t buffer[14];
   HAL_StatusTypeDef status = HAL_I2C_Mem_Read(
       &hi2c2, MPU9250_DEVICE_ADDRESS << 1, MPU9250_RA_ACCEL_XOUT_H,
@@ -217,4 +219,5 @@ q15_t TiltSensor::tilt_angle() {
     // }
   }
   return angle_;
+*/
 }

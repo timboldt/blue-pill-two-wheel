@@ -20,10 +20,6 @@
 #include "balance_main.h"
 #include "cmsis_os.h"
 
-I2C_HandleTypeDef hi2c2;
-SPI_HandleTypeDef hspi2;
-UART_HandleTypeDef huart1;
-
 osThreadId defaultTaskHandle;
 uint32_t defaultTaskBuffer[128];
 osStaticThreadDef_t defaultTaskControlBlock;
@@ -109,6 +105,17 @@ int __io_getchar() {
   // HAL_UART_Receive(&huart1,&ch8,1,HAL_MAX_DELAY);
   // return 0;
   return SEGGER_RTT_GetKey();
+}
+
+static StaticTask_t xIdleTaskTCBBuffer;
+static StackType_t xIdleStack[configMINIMAL_STACK_SIZE];
+
+void vApplicationGetIdleTaskMemory(StaticTask_t **ppxIdleTaskTCBBuffer,
+                                   StackType_t **ppxIdleTaskStackBuffer,
+                                   uint32_t *pulIdleTaskStackSize) {
+  *ppxIdleTaskTCBBuffer = &xIdleTaskTCBBuffer;
+  *ppxIdleTaskStackBuffer = &xIdleStack[0];
+  *pulIdleTaskStackSize = configMINIMAL_STACK_SIZE;
 }
 
 void StartDefaultTask(void const *argument) {
