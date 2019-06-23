@@ -2,9 +2,9 @@
 
 ## Blue Pill
 
-* USB at top
-* Left side if 5V tolerant.
-* Right side is not, except for PB10/11.
+* As a point of reference in this doc, the USB connector is at the "top".
+* The left side is 5V tolerant.
+* The right side is not 5V tolerant, except for PB10/11.
 
 Left side:
 
@@ -59,7 +59,7 @@ VBAT   x-x
 Bottom:
 
 ```
-3V3         --> Segger VREF
+3V3         --> Segger VTREF
 SWDIO(PA13) <-> Segger SWDIO
 SWCLK(PA14) <-- Segger SWCLK
 GND         --- Segger GND
@@ -67,18 +67,39 @@ GND         --- Segger GND
 
 ## Segger 20-pin Connector
 
+* [Segger docs](https://www.segger.com/products/debug-probes/j-link/technology/interface-description/)
 * Top left is 1.
 * Tab faces left.
 
+![20-pin pinout](https://www.segger.com/fileadmin/images/products/J-Link/Interface_Description/181129_SWD.svg)
+
 ```
-VREF   x
+VTREF  x
 x      GND
 x      GND
-SWDIO  x
-SWCLK  x
+SWDIO  GND
+SWCLK  GND
 x      GND
-SWO    x
-RESET  x
+SWO    GND
+RESET  GND
 x      GND
+5V     GND
+```
+
+## Segger 10-pin Connector
+
+* [Segger docs](https://www.segger.com/products/debug-probes/j-link/accessories/adapters/9-pin-cortex-m-adapter/).
+* Top left is 1.
+* Tab faces left.
+
+![pinout graphic](https://www.segger.com/fileadmin/images/products/J-Link/Accesory/Adapters/J-Link_9-pin_Cortex-M_Adapter.png)
+
+```
+VTREF   SWDIO
+GND     SWCLK
+GND     SWO
+x
+x      RESET
+
 5V     x
 ```
