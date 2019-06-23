@@ -50,7 +50,7 @@ set(MAIN_SOURCES
     # balancebot/motor.cpp
     # balancebot/tilt_sensor.cpp
     # balancebot/wheel.cpp
-    # src/main.c
+    src/default_task.c
     third_party/cubemx/Src/freertos.c
     third_party/cubemx/Src/system_stm32f1xx.c
     third_party/cubemx/Src/spi.c
