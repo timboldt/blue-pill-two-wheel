@@ -1,40 +1,14 @@
-# bluepill2wheel
+# blue-pill-two-wheel
 
-This is a reimplementation of my original Arduino-based Two-Wheel Balancing Bot, this time using STM32CubeMX and plain C/C++.
+This is a reimplementation of my original Arduino-based bot, this time using STM32CubeMX and plain C.
 
-Project status: The hardware is complete and all peripherals are working from
-code. The PID logic is still a hack and needs work before it will balance
-properly.
+Originally, this was a two-wheel balancing bot, but after a few iterations of that (in Arduino, CubeMX and finally [rusty-two-wheel](https://github.com/timboldt/rusty-two-wheel), implemented in Rust), I decided to evolve this into a standard two-wheel differential drive platform that I could do other experiments with.
 
 ### Disclaimer
 
 This is not an officially supported Google product.
 
-### Pinouts
+### Details
 
-```
-PA0  - Encoder 1 Channel A
-PA1  - Encoder 1 Channel B
-PA2  - Motor 2 Forward
-PA3  - Motor 2 Reverse
-PA4  - Motor 1 Forward
-PA5  - Motor 1 Reverse
-PA6  - Encoder 1 Channel A
-PA7  - Encoder 1 Channel B
+* [Pinouts](docs/pinouts.md)
 
-PA9  - USART1 TX
-PA10 - USART1 RX
-
-PB6  - Motor 1 PWM on TIM4 Ch 1
-PB7  - Motor 2 PWM on TIM4 Ch 2
-PB8  - RESERVED
-PB9  - RESERVED
-PB10 - I2C SCL
-PB11 - I2C SDA
-PB12 - SPI2 Slave Select
-PB13 - SPI2 SCK
-PB14 - SPI2 MISO
-PB15 - SPI2 MOSI
-
-PC13 - LED
-```
