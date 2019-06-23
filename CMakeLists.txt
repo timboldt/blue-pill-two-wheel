@@ -45,12 +45,22 @@ include_directories(
 )
 
 set(MAIN_SOURCES
-    balancebot/balance_main.cpp
-    balancebot/encoder.cpp
-    balancebot/motor.cpp
-    balancebot/tilt_sensor.cpp
-    balancebot/wheel.cpp
-    src/main.c
+    # balancebot/balance_main.cpp
+    # balancebot/encoder.cpp
+    # balancebot/motor.cpp
+    # balancebot/tilt_sensor.cpp
+    # balancebot/wheel.cpp
+    # src/main.c
+    third_party/cubemx/Src/freertos.c
+    third_party/cubemx/Src/system_stm32f1xx.c
+    third_party/cubemx/Src/spi.c
+    third_party/cubemx/Src/i2c.c
+    third_party/cubemx/Src/stm32f1xx_hal_timebase_tim.c
+    third_party/cubemx/Src/gpio.c
+    third_party/cubemx/Src/stm32f1xx_it.c
+    third_party/cubemx/Src/tim.c
+    third_party/cubemx/Src/stm32f1xx_hal_msp.c
+    third_party/cubemx/Src/main.c
 )
 
 set(CUBEMX_SOURCES
@@ -61,8 +71,10 @@ set(CUBEMX_SOURCES
     third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c
     third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c
     third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c
+    third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_ll_i2c.c
     third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_ll_gpio.c
     third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_ll_rcc.c
+    third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_ll_spi.c
     third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_ll_tim.c
     third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_ll_utils.c
     third_party/cubemx/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.c

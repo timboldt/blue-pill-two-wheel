@@ -51,9 +51,6 @@
 osThreadId defaultTaskHandle;
 uint32_t defaultTaskBuffer[ 128 ];
 osStaticThreadDef_t defaultTaskControlBlock;
-osThreadId balanceTaskHandle;
-uint32_t balanceTaskBuffer[ 128 ];
-osStaticThreadDef_t balanceTaskControlBlock;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -61,7 +58,6 @@ osStaticThreadDef_t balanceTaskControlBlock;
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void const * argument);
-extern void BALANCE_main(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -111,10 +107,6 @@ void MX_FREERTOS_Init(void) {
   /* definition and creation of defaultTask */
   osThreadStaticDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128, defaultTaskBuffer, &defaultTaskControlBlock);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
-
-  /* definition and creation of balanceTask */
-  osThreadStaticDef(balanceTask, BALANCE_main, osPriorityAboveNormal, 0, 128, balanceTaskBuffer, &balanceTaskControlBlock);
-  balanceTaskHandle = osThreadCreate(osThread(balanceTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */

@@ -2,7 +2,7 @@
 FREERTOS.FootprintOK=true
 FREERTOS.IPParameters=Tasks01,MEMORY_ALLOCATION,FootprintOK
 FREERTOS.MEMORY_ALLOCATION=1
-FREERTOS.Tasks01=defaultTask,0,128,StartDefaultTask,Default,NULL,Static,defaultTaskBuffer,defaultTaskControlBlock;balanceTask,1,128,BALANCE_main,As external,NULL,Static,balanceTaskBuffer,balanceTaskControlBlock
+FREERTOS.Tasks01=defaultTask,0,128,StartDefaultTask,Default,NULL,Static,defaultTaskBuffer,defaultTaskControlBlock
 File.Version=6
 KeepUserPlacement=false
 Mcu.Family=STM32F1
