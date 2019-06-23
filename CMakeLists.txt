@@ -56,15 +56,15 @@ set(MAIN_SOURCES
 set(CUBEMX_SOURCES
     third_party/cubemx/Drivers/CMSIS/DSP_Lib/Source/ControllerFunctions/arm_pid_init_q31.c
     third_party/cubemx/Drivers/CMSIS/DSP_Lib/Source/ControllerFunctions/arm_pid_reset_q31.c
-    third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c
-    third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c
-    third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c
-    third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c
-    third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c
-    third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c
-    third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c
-    third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c
-    third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c
+    # third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_cortex.c
+    # third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c
+    # third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_i2c.c
+    # third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.c
+    # third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.c
+    # third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi.c
+    # third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim_ex.c
+    # third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_tim.c
+    # third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal.c
     third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_ll_gpio.c
     third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_ll_rcc.c
     third_party/cubemx/Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_ll_tim.c
