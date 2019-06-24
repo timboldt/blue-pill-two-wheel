@@ -98,8 +98,6 @@ x      GND
 VTREF   SWDIO
 GND     SWCLK
 GND     SWO
-x
-x      RESET
-
-5V     x
+x       x
+x       RESET
 ```
