@@ -51,6 +51,7 @@ set(MAIN_SOURCES
     # balancebot/tilt_sensor.cpp
     # balancebot/wheel.cpp
     src/default_task.c
+    src/oled.c
     third_party/cubemx/Src/freertos.c
     third_party/cubemx/Src/system_stm32f1xx.c
     third_party/cubemx/Src/spi.c
