@@ -19,7 +19,10 @@
 
 void StartDefaultTask(void const *argument) {
   OLED_Init();
-  OLED_SetText(1, "Hello world!");
+  OLED_SetText(1, "123 ABC abc");
+  OLED_SetText(0, "Go back to line above");
+  OLED_SetText(7, "Line 7");
+  OLED_SetText(5, "This line is way too long but who cares?");
   for (;;) {
     // Board LED is on PC13.
     LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_13);
