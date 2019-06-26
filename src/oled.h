@@ -20,14 +20,16 @@
 
 #include "arm_math.h"
 
+// Initializes and clears the display.
+void OLED_Init();
+
 // Writes out one row of text.
 // - If `text` contains more than 16 characters, it will be trucated.
 // - If `text` is less than 16 characters (there is a null character within the
 // first 16 characters), the output will be padded with space until the end of
 // the line.
 // - `row` must be between 0 and 7.
-// - Returns true on success, and false if the device is busy.
-bool OLED_SetText(uint8_t row, char *text);
+void OLED_SetText(uint8_t row, char *text);
 
 // Writes out one column of a plot.
 // - Internally, it maintains a column counter associated with `top_row` which
@@ -38,8 +40,10 @@ bool OLED_SetText(uint8_t row, char *text);
 // - The height of the graph will be `8 * rows` pixels.
 // - `top_row + rows` should be never be greater than 8.
 // - `rows` must be a multiple of 2, i.e. 1, 2, 4 or 8.
+// - `col` should be a value between 0 and 127.
 // - `value` is a 8-bit signed value representing a number in the range [-1, 1).
 // Visually -1 is at the bottom and 1 is at the top.
-bool OLED_PlotData(bool reset, uint8_t top_row, uint8_t rows, q7_t value);
+void OLED_PlotData(bool reset, uint8_t top_row, uint8_t num_rows, uint8_t col,
+                   q7_t value);
 
 #endif  // OLED_H

@@ -13,9 +13,13 @@
 // limitations under the License.
 
 #include "cmsis_os.h"
+
 #include "main.h"
+#include "oled.h"
 
 void StartDefaultTask(void const *argument) {
+  OLED_Init();
+  OLED_SetText(1, "Hello world!");
   for (;;) {
     // Board LED is on PC13.
     LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_13);
