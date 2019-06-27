@@ -18,14 +18,18 @@
 #include "oled.h"
 
 void StartDefaultTask(void const *argument) {
+  // Wait for device to power up.
+  osDelay(100);
   OLED_Init();
-  OLED_SetText(1, "123 ABC abc");
-  OLED_SetText(0, "Go back to line above");
-  OLED_SetText(7, "Line 7");
-  OLED_SetText(5, "This line is way too long but who cares?");
+  OLED_SetText(0, "Init Complete");
   for (;;) {
     // Board LED is on PC13.
     LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_13);
+    if (LL_GPIO_IsOutputPinSet(GPIOC, LL_GPIO_PIN_13)) {
+      OLED_SetText(1, "LED Off");
+    } else {
+      OLED_SetText(1, "LED On");
+    }
     osDelay(1000);
   }
 }
