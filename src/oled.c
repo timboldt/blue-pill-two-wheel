@@ -129,11 +129,11 @@ static uint8_t alpha_font[] = {
 
 static uint8_t *_GetBytesForChar(char c) {
   if (c >= '0' && c <= '9') {
-    return &digit_font[8*(c - '0')];
+    return &digit_font[8 * (c - '0')];
   } else if (c >= 'A' && c <= 'Z') {
-    return &alpha_font[8*(c - 'A')];
+    return &alpha_font[8 * (c - 'A')];
   } else if (c >= 'a' && c <= 'z') {
-    return &alpha_font[8*(c - 'a')];
+    return &alpha_font[8 * (c - 'a')];
   }
   return &symbol_font[0];
 }
@@ -250,7 +250,25 @@ void OLED_SetText(uint8_t row, char *text) {
   }
 }
 
-void OLED_PlotData(bool reset, uint8_t top_row, uint8_t num_rows, uint8_t col,
-                   q7_t value) {
-  // TODO: implement me.
+void OLED_PlotData(uint8_t top_row, uint8_t num_rows, uint8_t col, q7_t value) {
+  if (num_rows == 2) {
+    uint8_t bits = 1 << (7 - (((uint8_t)value & 0x7F) >> 4));
+    uint8_t zero_bits = 0;
+    _MoveToRowCol(top_row, col);
+    if (value >= 0) {
+      _WriteBytes(false, &bits, 1);
+    } else {
+      _WriteBytes(false, &zero_bits, 1);
+    }
+    _MoveToRowCol(top_row + 1, col);
+    if (value >= 0) {
+      _WriteBytes(false, &zero_bits, 1);
+    } else {
+      _WriteBytes(false, &bits, 1);
+    }
+  } else {
+    // TODO: Implement other combinations.
+    OLED_SetText(top_row, "INVALID");
+    return;
+  }
 }

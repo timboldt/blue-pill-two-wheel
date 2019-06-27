@@ -34,7 +34,6 @@ void OLED_SetText(uint8_t row, char *text);
 // Writes out one column of a plot.
 // - Internally, it maintains a column counter associated with `top_row` which
 // is incremented after every call to `OLED_PlotData`.
-// - If `reset` is true, the column is reset to zero.
 // - `top_row` must be between 0 and 7. (Each row is 8 pixels high - 64 pixels
 // in total.)
 // - The height of the graph will be `8 * rows` pixels.
@@ -43,7 +42,6 @@ void OLED_SetText(uint8_t row, char *text);
 // - `col` should be a value between 0 and 127.
 // - `value` is a 8-bit signed value representing a number in the range [-1, 1).
 // Visually -1 is at the bottom and 1 is at the top.
-void OLED_PlotData(bool reset, uint8_t top_row, uint8_t num_rows, uint8_t col,
-                   q7_t value);
+void OLED_PlotData(uint8_t top_row, uint8_t num_rows, uint8_t col, q7_t value);
 
 #endif  // OLED_H

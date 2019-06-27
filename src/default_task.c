@@ -22,6 +22,12 @@ void StartDefaultTask(void const *argument) {
   osDelay(100);
   OLED_Init();
   OLED_SetText(0, "Init Complete");
+  for (int i = 0; i < 128; i++) {
+    OLED_PlotData(4, 2, i, i*i - 128);
+  }
+  for (int i = 0; i < 128; i++) {
+    OLED_PlotData(6, 2, i, (i-64)*(i-64)/16 - 128);
+  }
   for (;;) {
     // Board LED is on PC13.
     LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_13);
