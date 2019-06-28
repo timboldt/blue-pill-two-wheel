@@ -52,6 +52,7 @@ set(MAIN_SOURCES
     # balancebot/wheel.cpp
     src/default_task.c
     src/oled.c
+    src/ps2.c
     third_party/cubemx/Src/freertos.c
     third_party/cubemx/Src/system_stm32f1xx.c
     third_party/cubemx/Src/spi.c
