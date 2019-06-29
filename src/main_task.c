@@ -17,7 +17,7 @@
 #include "main.h"
 #include "oled.h"
 
-void StartDefaultTask(void const *argument) {
+void MainTask(void const *argument) {
   // Wait for device to power up.
   osDelay(100);
   OLED_Init();
