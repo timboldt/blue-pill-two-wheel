@@ -23,4 +23,6 @@
 // Initializes the PS2 joystick device.
 void PS2_Init();
 
+void PS2_GetJoy(uint8_t* jx, uint8_t* jy);
+
 #endif  // PS2_H

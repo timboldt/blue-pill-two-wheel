@@ -16,18 +16,24 @@
 
 #include "main.h"
 #include "oled.h"
+#include "ps2.h"
 
 void MainTask(void const *argument) {
   // Wait for device to power up.
   osDelay(100);
   OLED_Init();
-  OLED_SetText(0, "Init Complete");
+  OLED_SetText(0, "OLED Ready");
+  PS2_Init();
+  uint8_t jx, jy;
+  PS2_GetJoy(&jx, &jy);
+  OLED_SetText(0, "PS2 Ready");
   for (int i = 0; i < 128; i++) {
-    OLED_PlotData(4, 2, i, i*i - 128);
+    OLED_PlotData(4, 2, i, jx);
   }
   for (int i = 0; i < 128; i++) {
-    OLED_PlotData(6, 2, i, (i-64)*(i-64)/16 - 128);
+    OLED_PlotData(6, 2, i, jy);
   }
+  OLED_SetText(0, "Init Done");
   for (;;) {
     // Board LED is on PC13.
     LL_GPIO_TogglePin(GPIOC, LL_GPIO_PIN_13);
