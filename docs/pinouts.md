@@ -9,10 +9,10 @@
 Left side:
 
 ```
-PB12      (SPI2 SS?)
-PB13  --> SPI2 CLK
-PB14  <-- SPI2 MISO
-PB15  --> SPI2 MOSI
+PB12  --> PS2 ATT
+PB13  --> PS2 CLK
+PB14  <-- PS2 DATA
+PB15  --> PS2 CMD
 PA8   <-- Left encoder A
 PA9   <-- Left encoder B
 PA10  --> Left Motor En A
