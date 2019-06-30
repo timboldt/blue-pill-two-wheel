@@ -24,15 +24,8 @@ void MainTask(void const *argument) {
   OLED_Init();
   OLED_SetText(0, "OLED Ready");
   PS2_Init();
-  uint8_t jx, jy;
-  PS2_GetJoy(&jx, &jy);
   OLED_SetText(0, "PS2 Ready");
-  for (int i = 0; i < 128; i++) {
-    OLED_PlotData(4, 2, i, jx);
-  }
-  for (int i = 0; i < 128; i++) {
-    OLED_PlotData(6, 2, i, jy);
-  }
+  uint8_t col = 0;
   OLED_SetText(0, "Init Done");
   for (;;) {
     // Board LED is on PC13.
@@ -42,6 +35,11 @@ void MainTask(void const *argument) {
     } else {
       OLED_SetText(1, "LED On");
     }
-    osDelay(1000);
+    uint8_t jx = 0, jy = 0;
+    PS2_GetJoy(&jx, &jy);
+    OLED_PlotData(4, 2, col & 0x7f, ((int)jx) - 128);
+    OLED_PlotData(6, 2, col & 0x7f, ((int)jy) - 128);
+    col++;
+    osDelay(200);
   }
 }

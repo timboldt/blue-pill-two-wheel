@@ -18,6 +18,8 @@
 #include "gpio.h"
 #include "spi.h"
 
+static uint8_t data_[32];
+
 uint8_t _TrasferByte(uint8_t data) {
   while (!LL_SPI_IsActiveFlag_TXE(SPI2)) {
     osThreadYield();
@@ -29,7 +31,7 @@ uint8_t _TrasferByte(uint8_t data) {
   return (uint8_t)LL_SPI_ReceiveData8(SPI2);
 }
 
-void _TrasferBytes(const uint8_t *txbuf, uint8_t *rxbuf, uint8_t len) {
+void _TrasferBytes(const uint8_t* txbuf, uint8_t* rxbuf, uint8_t len) {
   LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_12);
   for (uint8_t i = 0; i < len; i++) {
     rxbuf[i] = _TrasferByte(txbuf[i]);
@@ -41,17 +43,46 @@ void _TrasferBytes(const uint8_t *txbuf, uint8_t *rxbuf, uint8_t len) {
   LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_12);
 }
 
+void _CmdInitialPoll() {
+  uint8_t cmd[] = {0x01, 0x42, 0x00, 0xFF, 0xFF};
+  _TrasferBytes(cmd, data_, sizeof(cmd));
+}
+
+void _CmdEnterConfigMode() {
+  uint8_t cmd[] = {0x01, 0x43, 0x00, 0x01, 0x00};
+  _TrasferBytes(cmd, data_, sizeof(cmd));
+}
+
+void _CmdExitConfigMode() {
+  uint8_t cmd[] = {0x01, 0x43, 0x00, 0x00, 0x5A, 0x5A, 0x5A, 0x5A, 0x5A};
+  _TrasferBytes(cmd, data_, sizeof(cmd));
+}
+
+void _CmdAnalogMode() {
+  uint8_t cmd[] = {0x01, 0x44, 0x00, 0x01, 0x03, 0x00, 0x00, 0x00, 0x00};
+  _TrasferBytes(cmd, data_, sizeof(cmd));
+}
+
+void _CmdPoll() {
+  uint8_t cmd[] = {0x01, 0x42, 0x00, 0x00, 0x00, 0x00, 0x00,
+                   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+  _TrasferBytes(cmd, data_, sizeof(cmd));
+}
+
 void PS2_Init() {
   LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_12);
   LL_SPI_Enable(SPI2);
+  _CmdInitialPoll();
+  _CmdEnterConfigMode();
+  _CmdAnalogMode();
+  _CmdExitConfigMode();
+  _CmdPoll();
 }
 
-#define kPollCmdSize 5
 void PS2_GetJoy(uint8_t* jx, uint8_t* jy) {
-  uint8_t cmd[kPollCmdSize] = {0x01, 0x42, 0x00, };
-  uint8_t data[kPollCmdSize] = {0x00, };
-  _TrasferBytes(cmd, data, kPollCmdSize);
-  // FAKE!! FIXME.
-  *jx = data[1];
-  *jy = data[2];
+  _CmdPoll();
+  // TEST: read right joystick
+  *jx = data_[5];
+  *jy = data_[6];
 }
